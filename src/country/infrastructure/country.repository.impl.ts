@@ -5,11 +5,13 @@ import {
   Country,
   CountrySearchQueryParams,
 } from 'src/shared/types/country.types';
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { SUPABASE_CLIENT } from 'src/supabase/supabase.module';
 
+@Injectable()
 export class SupabaseCountryRepository implements CountryRepository {
   constructor(
-    @Inject('supabaseClient')
+    @Inject(SUPABASE_CLIENT)
     private readonly supabaseClient: SupabaseClient<Database>,
   ) {}
 

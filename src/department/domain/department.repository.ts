@@ -1,8 +1,7 @@
-import { Department } from '@/shared/types/department.types';
-import { QueryDepartmentDto } from '../presentation/dto/department.dto';
+import { Department, DepartmentSearchQueryParams } from '@/shared/types/department.types';
 
 export interface DepartmentRepository {
-  findAll(queryParams: QueryDepartmentDto): Promise<Department[]>;
+  findAll(queryParams: DepartmentSearchQueryParams): Promise<Department[]>;
   findById(id: number): Promise<Department | null>;
 }
 

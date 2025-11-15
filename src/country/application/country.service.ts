@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { CountryRepository } from '../domain/country.repository';
+import { COUNTRY_REPOSITORY } from '../domain/country.repository';
 import {
   Country,
   CountrySearchQueryParams,
@@ -8,7 +9,7 @@ import {
 @Injectable()
 export class CountryService {
   constructor(
-    @Inject('CountryRepository')
+    @Inject(COUNTRY_REPOSITORY)
     private readonly countryRepository: CountryRepository,
   ) {}
 

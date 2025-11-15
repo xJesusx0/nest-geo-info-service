@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import type { DepartmentRepository } from '../domain/department.repository';
 import { DEPARTMENT_REPOSITORY } from '../domain/department.repository';
 import type { QueryDepartmentDto } from '../presentation/dto/department.dto';
+import { DepartmentSearchQueryParams } from '@/shared/types/department.types';
 
 @Injectable()
 export class DepartmentService {
@@ -10,7 +11,7 @@ export class DepartmentService {
     private departmentRepository: DepartmentRepository,
   ) {}
 
-  findAll(queryParams: QueryDepartmentDto) {
+  findAll(queryParams: DepartmentSearchQueryParams) {
     return this.departmentRepository.findAll(queryParams);
   }
 
