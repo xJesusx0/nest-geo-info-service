@@ -15,5 +15,7 @@ import { SupabaseDepartmentRepository } from './infrastructure/department.reposi
       useClass: SupabaseDepartmentRepository,
     },
   ],
+  exports: [DepartmentService],
 })
 export class DepartmentModule {}
+

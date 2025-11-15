@@ -1,7 +1,7 @@
 import {
   Country,
   CountrySearchQueryParams,
-} from 'src/shared/types/country.types';
+} from '@/shared/types/country.types';
 
 export interface CountryRepository {
   findAll(queryParams: CountrySearchQueryParams): Promise<Country[]>;

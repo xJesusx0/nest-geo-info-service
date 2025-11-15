@@ -4,7 +4,7 @@ import { COUNTRY_REPOSITORY } from '../domain/country.repository';
 import {
   Country,
   CountrySearchQueryParams,
-} from 'src/shared/types/country.types';
+} from '@/shared/types/country.types';
 
 @Injectable()
 export class CountryService {

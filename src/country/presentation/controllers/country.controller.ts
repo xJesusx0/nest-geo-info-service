@@ -6,10 +6,12 @@ import {
   ParseIntPipe,
   Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CountryService } from '../../application/country.service';
-import { Country } from 'src/shared/types/country.types';
+import { Country } from '@/shared/types/country.types';
 import { CountryQueryDto } from '../dto/country.dto';
 
+@ApiTags('Countries')
 @Controller('/api/v1/countries')
 export class CountryController {
   constructor(private readonly countryService: CountryService) {}

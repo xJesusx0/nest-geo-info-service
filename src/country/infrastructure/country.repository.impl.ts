@@ -1,12 +1,12 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { CountryRepository } from '../domain/country.repository';
-import { Database } from 'src/shared/types/database.types';
+import { Database } from '@/shared/types/database.types';
 import {
   Country,
   CountrySearchQueryParams,
-} from 'src/shared/types/country.types';
+} from '@/shared/types/country.types';
 import { Inject, Injectable } from '@nestjs/common';
-import { SUPABASE_CLIENT } from 'src/supabase/supabase.module';
+import { SUPABASE_CLIENT } from '@/supabase/supabase.module';
 
 @Injectable()
 export class SupabaseCountryRepository implements CountryRepository {
