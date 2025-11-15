@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsLatitude, IsLongitude, IsNotEmpty } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 
 /**

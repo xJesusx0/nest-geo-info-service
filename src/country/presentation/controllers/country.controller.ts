@@ -11,7 +11,6 @@ import {
   ApiOperation,
   ApiOkResponse,
   ApiNotFoundResponse,
-  ApiQuery,
 } from '@nestjs/swagger';
 import { CountryService } from '../../application/country.service';
 import { CountryDto, CountryQueryDto } from '../dto/country.dto';

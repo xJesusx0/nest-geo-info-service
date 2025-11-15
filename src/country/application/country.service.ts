@@ -2,10 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import type { CountryRepository } from '../domain/country.repository';
 import { COUNTRY_REPOSITORY } from '../domain/country.repository';
-import {
-  Country,
-  CountrySearchQueryParams,
-} from '@/shared/types/country.types';
+import { CountrySearchQueryParams } from '@/shared/types/country.types';
 import { CountryDto } from '../presentation/dto/country.dto';
 
 @Injectable()
