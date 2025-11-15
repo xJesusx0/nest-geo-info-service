@@ -1,8 +1,12 @@
 import { Controller, Get, Query, NotFoundException } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiOkResponse,
+  ApiNotFoundResponse,
+} from '@nestjs/swagger';
 import { NeighborhoodService } from '../../application/neighborhood.service';
-import { QueryNeighborhoodDto } from '../dto/neighborhood.dto';
-import { NeighborhoodByPoint } from '@/shared/types/neighborhood.types';
+import { QueryNeighborhoodDto, NeighborhoodDto } from '../dto/neighborhood.dto';
 
 @ApiTags('Neighborhoods')
 @Controller('/api/v1/neighborhoods')
@@ -10,9 +14,21 @@ export class NeighborhoodController {
   constructor(private readonly neighborhoodService: NeighborhoodService) {}
 
   @Get('point')
+  @ApiOperation({
+    summary: 'Get neighborhood by geographic coordinates',
+    description:
+      'Find the neighborhood at a specific geographic point (latitude, longitude)',
+  })
+  @ApiOkResponse({
+    type: NeighborhoodDto,
+    description: 'Neighborhood at the given coordinates',
+  })
+  @ApiNotFoundResponse({
+    description: 'No neighborhood found at the given coordinates',
+  })
   async getByPoint(
     @Query() query: QueryNeighborhoodDto,
-  ): Promise<NeighborhoodByPoint> {
+  ): Promise<NeighborhoodDto> {
     const { longitude, latitude } = query;
     const neighborhood = await this.neighborhoodService.findByCoordinates(
       longitude,

@@ -1,10 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import type { CountryRepository } from '../domain/country.repository';
 import { COUNTRY_REPOSITORY } from '../domain/country.repository';
 import {
   Country,
   CountrySearchQueryParams,
 } from '@/shared/types/country.types';
+import { CountryDto } from '../presentation/dto/country.dto';
 
 @Injectable()
 export class CountryService {
@@ -13,11 +15,22 @@ export class CountryService {
     private readonly countryRepository: CountryRepository,
   ) {}
 
-  async getAllCountries(query: CountrySearchQueryParams): Promise<Country[]> {
-    return this.countryRepository.findAll(query);
+  async getAllCountries(
+    query: CountrySearchQueryParams,
+  ): Promise<CountryDto[]> {
+    const countries = await this.countryRepository.findAll(query);
+    return plainToInstance(CountryDto, countries, {
+      excludeExtraneousValues: true,
+    });
   }
 
-  async getCountryById(id: number): Promise<Country | null> {
-    return this.countryRepository.findById(id);
+  async getCountryById(id: number): Promise<CountryDto | null> {
+    const country = await this.countryRepository.findById(id);
+    if (!country) {
+      return null;
+    }
+    return plainToInstance(CountryDto, country, {
+      excludeExtraneousValues: true,
+    });
   }
 }
