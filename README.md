@@ -25,74 +25,138 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Project setup
+# Geo Info Service
+
+API REST construida con NestJS que provee información geográfica (países, departamentos, ciudades, barrios). El proyecto usa Supabase como almacenamiento, Swagger para documentación OpenAPI y está organizado siguiendo una arquitectura por capas (presentation / application / domain / infrastructure).
+
+## Requisitos
+
+- Node.js 18+ (o la versión LTS recomendada)
+- npm o bun como gestor de paquetes
+- Git
+
+El proyecto usa TypeScript y NestJS (v11). Revisa `package.json` para versiones exactas.
+
+## Instalación
+
+Desde la raíz del proyecto:
 
 ```bash
-$ npm install
+# Instala dependencias
+npm install
+# o con bun
+# bun install
 ```
 
-## Compile and run the project
+Copia el archivo de ejemplo de variables de entorno y rellena las claves:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+cp .env.example .env
+# luego edita .env
 ```
 
-## Run tests
+Si no tienes `.env.example`, crea un `.env` con al menos:
+
+```env
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your_anon_key_here
+PORT=3000
+```
+
+> Nota: la aplicación espera `SUPABASE_ANON_KEY` (o `SUPABASE_KEY` si lo configuras así). Si ves el error `supabaseKey is required.` revisa que las variables no estén vacías y que arranques desde la raíz del proyecto.
+
+## Scripts útiles
 
 ```bash
-# unit tests
-$ npm run test
+# Desarrollo con recarga
+npm run start:dev
 
-# e2e tests
-$ npm run test:e2e
+# Producción (build + run)
+npm run build
+npm run start:prod
 
-# test coverage
-$ npm run test:cov
+# Linter
+npm run lint
+
+# Tests
+npm run test
+npm run test:e2e
 ```
 
-## Deployment
+Si usas bun, puedes mapear los scripts con `bun run <script>` si los tienes configurados.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Documentación Swagger / OpenAPI
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+La documentación automática está habilitada. Una vez arrancada la app en `PORT` (por defecto 3000):
+
+- Swagger UI: http://localhost:3000/docs
+- JSON OpenAPI: http://localhost:3000/docs-json
+
+## Estructura del proyecto (resumen)
+
+- `src/`
+  - `country/`, `department/`, `city/`, `neighborhood/` — módulos por entidad
+    - `presentation/` — controllers, DTOs
+    - `application/` — services (casos de uso)
+    - `domain/` — contratos (interfaces, tokens)
+    - `infrastructure/` — implementaciones (Supabase repositories)
+  - `supabase/` — módulo para crear y exportar el cliente de Supabase
+  - `shared/types/` — tipos compartidos (database, modelos)
+  - `main.ts` — bootstrap de Nest, validaciones y swagger
+
+El proyecto sigue la separación de responsabilidades (hexagonal / clean-ish): controllers -> services -> repositories.
+
+## Notas importantes / Troubleshooting
+
+- Error de inyección: "Nest can't resolve dependencies of the supabaseClient (?)... ConfigModule"
+  - Asegúrate de inyectar `ConfigService` (no `ConfigModule`) en los providers. El módulo `SupabaseModule` debe importar `ConfigModule` y usar `inject: [ConfigService]`.
+
+- Error "supabaseKey is required." al crear el cliente Supabase
+  - Significa que la variable de entorno del key está vacía o no fue cargada. Verifica:
+    - Que `.env` existe en la raíz y contiene `SUPABASE_URL` y `SUPABASE_ANON_KEY`.
+    - Que `ConfigModule.forRoot({ isGlobal: true })` está configurado en `AppModule` (ya incluido en el proyecto).
+
+- Linter: advertencia `no-floating-promises` en `main.ts`
+  - Se resolvió usando `void bootstrap();` para indicar explícitamente que se ignora la promesa al final del fichero.
+
+- Alias de importación: el `tsconfig.json` define `@/*` apuntando a `src/*`. Usa `@/` para imports absolutos en lugar de `src/` para mantener consistencia.
+
+## Buenas prácticas aplicadas
+
+- Cada repositorio usa un token exportado (`CITY_REPOSITORY`, `DEPARTMENT_REPOSITORY`, etc.) para permitir mocking y reemplazo de implementaciones.
+- Servicios son `providers` y se exportan cuando deben ser reutilizables por otros módulos.
+- Repositorios que usan Nest DI están marcados con `@Injectable()`.
+- Validación global con `ValidationPipe` y transformación habilitada.
+
+## Desarrollo y pruebas locales
+
+1. Rellena `.env` con tu Supabase URL y KEY.
+2. Arranca la app en modo dev:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+3. Visita `http://localhost:3000/docs` para ver la API y probar endpoints.
 
-## Resources
+## Contribuciones
 
-Check out a few resources that may come in handy when working with NestJS:
+Pull requests bienvenidos. Antes de enviar PR:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+- Corre `npm run lint` y arregla warnings relevantes
+- Añade tests cuando cambies lógica de negocio
+- Mantén consistencia con los alias `@/` y la estructura de carpetas
 
-## Support
+## Licencia
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Por defecto este repositorio no indica licencia (`UNLICENSED` en package.json). Cambia el archivo `LICENSE` si quieres publicar con una licencia explícita.
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Si quieres, puedo:
 
-## License
+- Generar un archivo `.env.example` automáticamente en el repo.
+- Añadir un pequeño script de healthcheck o un endpoint `/health`.
+- Añadir instrucciones para ejecutar con Docker.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Dime qué prefieres y lo añado.
