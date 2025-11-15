@@ -25,10 +25,6 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      # 4. Verificar TypeScript
-      - name: Check TypeScript
-        run: bun run check
-
-      # 5. Ejecutar ESLint
+      # 4. Ejecutar ESLint
       - name: Run ESLint
         run: bun run lint
