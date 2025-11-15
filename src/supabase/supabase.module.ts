@@ -3,11 +3,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from 'src/shared/types/database.types';
 
+export const SUPABASE_CLIENT = 'supabaseClient';
+
 @Module({
-    imports: [ConfigModule],
+  imports: [ConfigModule],
   providers: [
     {
-      provide: 'supabaseClient',
+      provide: SUPABASE_CLIENT,
       inject: [ConfigService],
       useFactory: (config: ConfigService): SupabaseClient<Database> => {
         return createClient<Database>(

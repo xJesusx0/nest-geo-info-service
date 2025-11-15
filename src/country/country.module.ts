@@ -3,11 +3,12 @@ import { SupabaseCountryRepository } from './infrastructure/country.repository.i
 import { CountryService } from './application/country.service';
 import { CountryController } from './presentation/controllers/country.controller';
 import { SupabaseModule } from 'src/supabase/supabase.module';
+import { COUNTRY_REPOSITORY } from './domain/country.repository';
 
 @Module({
   providers: [
     {
-      provide: 'CountryRepository',
+      provide: COUNTRY_REPOSITORY,
       useClass: SupabaseCountryRepository,
     },
     CountryService,
