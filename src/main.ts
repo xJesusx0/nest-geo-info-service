@@ -26,4 +26,6 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 3000);
 }
-bootstrap();
+// mark the returned promise as intentionally ignored to satisfy the
+// @typescript-eslint/no-floating-promises rule (we don't need to await here)
+void bootstrap();
