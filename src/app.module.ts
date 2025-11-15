@@ -5,6 +5,7 @@ import { CountryModule } from './country/country.module';
 import { SupabaseModule } from './supabase/supabase.module';
 import { ConfigModule } from '@nestjs/config';
 import { DepartmentModule } from './department/department.module';
+import { CityModule } from './city/city.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { DepartmentModule } from './department/department.module';
     CountryModule,
     DepartmentModule,
     SupabaseModule,
+    CityModule,
   ],
   controllers: [AppController],
   providers: [AppService],

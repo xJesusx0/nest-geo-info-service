@@ -1,4 +1,7 @@
-import { Department, DepartmentSearchQueryParams } from '@/shared/types/department.types';
+import {
+  Department,
+  DepartmentSearchQueryParams,
+} from '@/shared/types/department.types';
 
 export interface DepartmentRepository {
   findAll(queryParams: DepartmentSearchQueryParams): Promise<Department[]>;

@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { DepartmentRepository } from '../domain/department.repository';
 import { DEPARTMENT_REPOSITORY } from '../domain/department.repository';
-import type { QueryDepartmentDto } from '../presentation/dto/department.dto';
 import { DepartmentSearchQueryParams } from '@/shared/types/department.types';
 
 @Injectable()

@@ -1104,7 +1104,6 @@ export type Database = {
       st_geomfromewkt: { Args: { '': string }; Returns: unknown };
       st_geomfromgeojson:
         | { Args: { '': Json }; Returns: unknown }
-        | { Args: { '': Json }; Returns: unknown }
         | { Args: { '': string }; Returns: unknown };
       st_geomfromgml: { Args: { '': string }; Returns: unknown };
       st_geomfromkml: { Args: { '': string }; Returns: unknown };

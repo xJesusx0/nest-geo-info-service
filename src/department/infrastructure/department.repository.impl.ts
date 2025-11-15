@@ -1,8 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { DepartmentRepository } from '../domain/department.repository';
-import { QueryDepartmentDto } from '../presentation/dto/department.dto';
-import { Department, DepartmentSearchQueryParams } from '@/shared/types/department.types';
+import {
+  Department,
+  DepartmentSearchQueryParams,
+} from '@/shared/types/department.types';
 import { Database } from '@/shared/types/database.types';
 import { SUPABASE_CLIENT } from '@/supabase/supabase.module';
 
@@ -13,7 +15,9 @@ export class SupabaseDepartmentRepository implements DepartmentRepository {
     private supabaseClient: SupabaseClient<Database>,
   ) {}
 
-  async findAll(queryParams: DepartmentSearchQueryParams): Promise<Department[]> {
+  async findAll(
+    queryParams: DepartmentSearchQueryParams,
+  ): Promise<Department[]> {
     let query = this.supabaseClient.from('department').select('*');
 
     if (queryParams.name) {
