@@ -1,4 +1,10 @@
-export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[];
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
@@ -478,7 +484,10 @@ export type Database = {
         };
         Returns: boolean;
       };
-      _st_equals: { Args: { geom1: unknown; geom2: unknown }; Returns: boolean };
+      _st_equals: {
+        Args: { geom1: unknown; geom2: unknown };
+        Returns: boolean;
+      };
       _st_intersects: {
         Args: { geom1: unknown; geom2: unknown };
         Returns: boolean;
@@ -517,7 +526,10 @@ export type Database = {
         };
         Returns: unknown;
       };
-      _st_within: { Args: { geom1: unknown; geom2: unknown }; Returns: boolean };
+      _st_within: {
+        Args: { geom1: unknown; geom2: unknown };
+        Returns: boolean;
+      };
       addauth: { Args: { '': string }; Returns: boolean };
       addgeometrycolumn:
         | {
@@ -804,11 +816,19 @@ export type Database = {
             Returns: string;
           }
         | {
-            Args: { geom: unknown; maxdecimaldigits?: number; options?: number };
+            Args: {
+              geom: unknown;
+              maxdecimaldigits?: number;
+              options?: number;
+            };
             Returns: string;
           }
         | {
-            Args: { geog: unknown; maxdecimaldigits?: number; options?: number };
+            Args: {
+              geog: unknown;
+              maxdecimaldigits?: number;
+              options?: number;
+            };
             Returns: string;
           }
         | { Args: { '': string }; Returns: string };
@@ -825,7 +845,11 @@ export type Database = {
             Returns: string;
           }
         | {
-            Args: { geom: unknown; maxdecimaldigits?: number; options?: number };
+            Args: {
+              geom: unknown;
+              maxdecimaldigits?: number;
+              options?: number;
+            };
             Returns: string;
           }
         | {
@@ -852,11 +876,19 @@ export type Database = {
         | { Args: { '': string }; Returns: string };
       st_askml:
         | {
-            Args: { geom: unknown; maxdecimaldigits?: number; nprefix?: string };
+            Args: {
+              geom: unknown;
+              maxdecimaldigits?: number;
+              nprefix?: string;
+            };
             Returns: string;
           }
         | {
-            Args: { geog: unknown; maxdecimaldigits?: number; nprefix?: string };
+            Args: {
+              geog: unknown;
+              maxdecimaldigits?: number;
+              nprefix?: string;
+            };
             Returns: string;
           }
         | { Args: { '': string }; Returns: string };
@@ -864,7 +896,10 @@ export type Database = {
         Args: { geom: unknown; tmpl?: string };
         Returns: string;
       };
-      st_asmarc21: { Args: { format?: string; geom: unknown }; Returns: string };
+      st_asmarc21: {
+        Args: { format?: string; geom: unknown };
+        Returns: string;
+      };
       st_asmvtgeom: {
         Args: {
           bounds: unknown;
@@ -939,7 +974,10 @@ export type Database = {
         Args: { geom1: unknown; geom2: unknown };
         Returns: unknown;
       };
-      st_collect: { Args: { geom1: unknown; geom2: unknown }; Returns: unknown };
+      st_collect: {
+        Args: { geom1: unknown; geom2: unknown };
+        Returns: unknown;
+      };
       st_concavehull: {
         Args: {
           param_allow_holes?: boolean;
@@ -963,7 +1001,10 @@ export type Database = {
       st_covers:
         | { Args: { geog1: unknown; geog2: unknown }; Returns: boolean }
         | { Args: { geom1: unknown; geom2: unknown }; Returns: boolean };
-      st_crosses: { Args: { geom1: unknown; geom2: unknown }; Returns: boolean };
+      st_crosses: {
+        Args: { geom1: unknown; geom2: unknown };
+        Returns: boolean;
+      };
       st_curvetoline: {
         Args: { flags?: number; geom: unknown; tol?: number; toltype?: number };
         Returns: unknown;
@@ -1022,7 +1063,10 @@ export type Database = {
             Returns: unknown;
           }
         | { Args: { box: unknown; dx: number; dy: number }; Returns: unknown };
-      st_force3d: { Args: { geom: unknown; zvalue?: number }; Returns: unknown };
+      st_force3d: {
+        Args: { geom: unknown; zvalue?: number };
+        Returns: unknown;
+      };
       st_force3dm: {
         Args: { geom: unknown; mvalue?: number };
         Returns: unknown;
@@ -1073,7 +1117,12 @@ export type Database = {
         Returns: number;
       };
       st_hexagon: {
-        Args: { cell_i: number; cell_j: number; origin?: unknown; size: number };
+        Args: {
+          cell_i: number;
+          cell_j: number;
+          origin?: unknown;
+          size: number;
+        };
         Returns: unknown;
       };
       st_hexagongrid: {
@@ -1259,7 +1308,12 @@ export type Database = {
       };
       st_split: { Args: { geom1: unknown; geom2: unknown }; Returns: unknown };
       st_square: {
-        Args: { cell_i: number; cell_j: number; origin?: unknown; size: number };
+        Args: {
+          cell_i: number;
+          cell_j: number;
+          origin?: unknown;
+          size: number;
+        };
         Returns: unknown;
       };
       st_squaregrid: {
@@ -1295,7 +1349,10 @@ export type Database = {
         };
         Returns: unknown;
       };
-      st_touches: { Args: { geom1: unknown; geom2: unknown }; Returns: boolean };
+      st_touches: {
+        Args: { geom1: unknown; geom2: unknown };
+        Returns: boolean;
+      };
       st_transform:
         | { Args: { geom: unknown; to_proj: string }; Returns: unknown }
         | {
@@ -1359,7 +1416,10 @@ export type Database = {
 
 type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>;
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, 'public'>];
+type DefaultSchema = DatabaseWithoutInternals[Extract<
+  keyof Database,
+  'public'
+>];
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
@@ -1380,8 +1440,10 @@ export type Tables<
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
-    ? (DefaultSchema['Tables'] & DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] &
+        DefaultSchema['Views'])
+    ? (DefaultSchema['Tables'] &
+        DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
         Row: infer R;
       }
       ? R
