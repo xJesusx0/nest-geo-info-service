@@ -8,6 +8,7 @@ import { DepartmentModule } from './department/department.module';
 import { CityModule } from './city/city.module';
 import { NeighborhoodModule } from './neighborhood/neighborhood.module';
 import { ApiKeyModule } from './api-key/api-key.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ApiKeyModule } from './api-key/api-key.module';
     CityModule,
     NeighborhoodModule,
     ApiKeyModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
