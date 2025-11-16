@@ -6,9 +6,11 @@ import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [ApiKeyModule],
-  providers: [{
-    provide: APP_GUARD,
-    useClass: ApiKeyGuard
-  }],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ApiKeyGuard,
+    },
+  ],
 })
 export class AuthModule {}

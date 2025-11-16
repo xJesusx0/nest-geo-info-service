@@ -17,7 +17,7 @@ export type Database = {
       api_key: {
         Row: {
           active: boolean;
-          client_origin: string | null;
+          client_origin: Json;
           created_at: string;
           expires_at: string | null;
           id: number;
@@ -28,7 +28,7 @@ export type Database = {
         };
         Insert: {
           active?: boolean;
-          client_origin?: string | null;
+          client_origin?: Json;
           created_at?: string;
           expires_at?: string | null;
           id?: number;
@@ -39,43 +39,7 @@ export type Database = {
         };
         Update: {
           active?: boolean;
-          client_origin?: string | null;
-          created_at?: string;
-          expires_at?: string | null;
-          id?: number;
-          key_hash?: string;
-          last_used_at?: string | null;
-          name?: string;
-          scopes?: Json;
-        };
-        Relationships: [];
-      };
-      api_keys: {
-        Row: {
-          active: boolean;
-          client_origin: string | null;
-          created_at: string;
-          expires_at: string | null;
-          id: number;
-          key_hash: string;
-          last_used_at: string | null;
-          name: string;
-          scopes: Json;
-        };
-        Insert: {
-          active?: boolean;
-          client_origin?: string | null;
-          created_at?: string;
-          expires_at?: string | null;
-          id?: number;
-          key_hash: string;
-          last_used_at?: string | null;
-          name: string;
-          scopes?: Json;
-        };
-        Update: {
-          active?: boolean;
-          client_origin?: string | null;
+          client_origin?: Json;
           created_at?: string;
           expires_at?: string | null;
           id?: number;
