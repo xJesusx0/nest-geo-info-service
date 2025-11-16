@@ -18,8 +18,6 @@ export class ApiKeyGuard implements CanActivate {
 
     const keyRecord = await this.apiKeyService.findByKey(apiKey);
 
-    console.log(keyRecord)
-
     if (!keyRecord || !keyRecord.active) {
       return false;
     }
