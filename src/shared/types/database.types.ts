@@ -14,6 +14,42 @@ export type Database = {
   };
   public: {
     Tables: {
+      api_key: {
+        Row: {
+          active: boolean;
+          client_origin: Json;
+          created_at: string;
+          expires_at: string | null;
+          id: number;
+          key_hash: string;
+          last_used_at: string | null;
+          name: string;
+          scopes: Json;
+        };
+        Insert: {
+          active?: boolean;
+          client_origin?: Json;
+          created_at?: string;
+          expires_at?: string | null;
+          id?: number;
+          key_hash: string;
+          last_used_at?: string | null;
+          name: string;
+          scopes?: Json;
+        };
+        Update: {
+          active?: boolean;
+          client_origin?: Json;
+          created_at?: string;
+          expires_at?: string | null;
+          id?: number;
+          key_hash?: string;
+          last_used_at?: string | null;
+          name?: string;
+          scopes?: Json;
+        };
+        Relationships: [];
+      };
       city: {
         Row: {
           active: boolean;
@@ -1103,6 +1139,7 @@ export type Database = {
       st_geometryfromtext: { Args: { '': string }; Returns: unknown };
       st_geomfromewkt: { Args: { '': string }; Returns: unknown };
       st_geomfromgeojson:
+        | { Args: { '': Json }; Returns: unknown }
         | { Args: { '': Json }; Returns: unknown }
         | { Args: { '': string }; Returns: unknown };
       st_geomfromgml: { Args: { '': string }; Returns: unknown };
