@@ -12,7 +12,7 @@ export class SupabaseApiKeyRepository implements ApiKeyRepository {
   ) {}
 
   async findByKey(hashedKey: string): Promise<ApiKey | null> {
-    let query = this.supabaseClient
+    const query = this.supabaseClient
       .from('api_key')
       .select('*')
       .eq('key_hash', hashedKey)

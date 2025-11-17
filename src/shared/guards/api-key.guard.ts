@@ -1,12 +1,11 @@
 import { ApiKeyService } from '@/api-key/application/api-key.service';
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Request } from 'express';
-import { Observable } from 'rxjs';
 import { ApiKey } from '../types/api-key.types';
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
-  constructor(private readonly apiKeyService: ApiKeyService) { }
+  constructor(private readonly apiKeyService: ApiKeyService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
@@ -43,17 +42,18 @@ export class ApiKeyGuard implements CanActivate {
       return true; // No origin to validate
     }
 
-    if (!apiKeyRecord.client_origin ||
+    if (
+      !apiKeyRecord.client_origin ||
       !Array.isArray(apiKeyRecord.client_origin) ||
       apiKeyRecord.client_origin.length === 0 ||
-      apiKeyRecord.client_origin.includes('*')) {
+      apiKeyRecord.client_origin.includes('*')
+    ) {
       return true; // No restrictions on origins
     }
 
     const allowedOrigins = apiKeyRecord.client_origin;
-    return allowedOrigins.find(o => o === origin) !== undefined;
+    return allowedOrigins.find((o) => o === origin) !== undefined;
   }
-
 }
 
 export const API_KEY_GUARD = 'ApiKeyGuard';
