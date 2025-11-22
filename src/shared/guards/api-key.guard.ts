@@ -8,7 +8,7 @@ export class ApiKeyGuard implements CanActivate {
   constructor(private readonly apiKeyService: ApiKeyService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest<Request>();
+    const request: any = context.switchToHttp().getRequest<Request>();
 
     const apiKey = request.headers['x-api-key'];
     if (!apiKey || Array.isArray(apiKey)) {
@@ -33,6 +33,7 @@ export class ApiKeyGuard implements CanActivate {
       return false;
     }
 
+    request.scopes = keyRecord.scopes || [];
     return true;
   }
 
