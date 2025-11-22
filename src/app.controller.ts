@@ -9,7 +9,7 @@ export class AppController {
   @Get()
   @Public()
   getInfo() {
-     return {
+    return {
       service: pkg.name ?? 'geo-info-service',
       version: pkg.version ?? '0.0.0',
       description:

@@ -11,8 +11,8 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     return (
-      await this.publicGuard.canActivate(context) ||
-      await this.apiKeyGuard.canActivate(context)
+      (await this.publicGuard.canActivate(context)) ||
+      (await this.apiKeyGuard.canActivate(context))
     );
   }
 }
