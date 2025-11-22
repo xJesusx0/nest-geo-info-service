@@ -1,14 +1,31 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
 import { Public } from './shared/decorators/public.decorator';
+import pkg from '../package.json';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor() {}
 
   @Get()
   @Public()
-  getHello(): string {
-    return this.appService.getHello();
+  getInfo() {
+     return {
+      service: pkg.name ?? 'geo-info-service',
+      version: pkg.version ?? '0.0.0',
+      description:
+        'Un microservicio que expone información geográfica de Barranquilla y sus barrios.',
+      docs: '/docs',
+      uptime: process.uptime(),
+    };
+  }
+
+  @Get('health')
+  @Public()
+  health() {
+    return {
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+    };
   }
 }
