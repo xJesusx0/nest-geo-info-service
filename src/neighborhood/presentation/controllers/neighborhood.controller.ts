@@ -1,4 +1,5 @@
 import { Controller, Get, Query, NotFoundException } from '@nestjs/common';
+import { Scopes } from '@/shared/decorators/scopes.decorator';
 import {
   ApiTags,
   ApiOperation,
@@ -14,6 +15,7 @@ export class NeighborhoodController {
   constructor(private readonly neighborhoodService: NeighborhoodService) {}
 
   @Get('point')
+  @Scopes('neighborhood:read')
   @ApiOperation({
     summary: 'Get neighborhood by geographic coordinates',
     description:

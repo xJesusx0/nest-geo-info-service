@@ -9,17 +9,17 @@ export class AuthGuard implements CanActivate {
     private readonly apiKeyGuard: ApiKeyGuard,
     private readonly publicGuard: PublicGuard,
     private readonly scopesGuard: ScopesGuard,
-  ) { }
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    if (await this.publicGuard.canActivate(context)) return true;
+    if (this.publicGuard.canActivate(context)) return true;
 
     const apiKeyValid = await this.apiKeyGuard.canActivate(context);
-    if(!apiKeyValid){
+    if (!apiKeyValid) {
       return false;
     }
 
-    const scopesValid = await this.scopesGuard.canActivate(context);
+    const scopesValid = this.scopesGuard.canActivate(context);
     return scopesValid;
   }
 }

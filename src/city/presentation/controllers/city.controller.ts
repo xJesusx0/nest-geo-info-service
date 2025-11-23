@@ -6,6 +6,7 @@ import {
   NotFoundException,
   Query,
 } from '@nestjs/common';
+import { Scopes } from '@/shared/decorators/scopes.decorator';
 import {
   ApiTags,
   ApiOperation,
@@ -20,6 +21,7 @@ export class CityController {
   constructor(private readonly cityService: CityService) {}
 
   @Get()
+  @Scopes('city:read')
   @ApiOperation({
     summary: 'List all cities',
     description:
@@ -36,6 +38,7 @@ export class CityController {
   }
 
   @Get(':id')
+  @Scopes('city:read')
   @ApiOperation({
     summary: 'Get city by ID',
     description: 'Retrieve detailed information about a specific city',

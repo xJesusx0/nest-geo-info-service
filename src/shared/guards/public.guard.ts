@@ -5,7 +5,7 @@ import { Reflector } from '@nestjs/core';
 export class PublicGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  canActivate(context: ExecutionContext): boolean {
     const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [
       context.getHandler(),
       context.getClass(),
