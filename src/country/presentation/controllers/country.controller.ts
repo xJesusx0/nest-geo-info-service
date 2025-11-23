@@ -6,6 +6,7 @@ import {
   ParseIntPipe,
   Query,
 } from '@nestjs/common';
+import { Scopes } from '@/shared/decorators/scopes.decorator';
 import {
   ApiTags,
   ApiOperation,
@@ -21,6 +22,7 @@ export class CountryController {
   constructor(private readonly countryService: CountryService) {}
 
   @Get()
+  @Scopes('country:read')
   @ApiOperation({
     summary: 'List all countries',
     description:
@@ -35,6 +37,7 @@ export class CountryController {
   }
 
   @Get(':id')
+  @Scopes('country:read')
   @ApiOperation({
     summary: 'Get country by ID',
     description: 'Retrieve detailed information about a specific country',
