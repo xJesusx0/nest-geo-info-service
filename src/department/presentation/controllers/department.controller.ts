@@ -5,6 +5,7 @@ import {
   NotFoundException,
   Query,
 } from '@nestjs/common';
+import { Scopes } from '@/shared/decorators/scopes.decorator';
 import {
   ApiTags,
   ApiOperation,
@@ -23,6 +24,7 @@ export class DepartmentController {
   constructor(private readonly departmentService: DepartmentService) {}
 
   @Get()
+  @Scopes('department:read')
   @ApiOperation({
     summary: 'List all departments',
     description:
@@ -39,6 +41,7 @@ export class DepartmentController {
   }
 
   @Get(':id')
+  @Scopes('department:read')
   @ApiOperation({
     summary: 'Get department by ID',
     description: 'Retrieve detailed information about a specific department',

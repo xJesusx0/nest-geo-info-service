@@ -1,14 +1,14 @@
 import { ApiKeyService } from '@/api-key/application/api-key.service';
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Request } from 'express';
-import { ApiKey } from '../types/api-key.types';
+import { AuthenticatedRequest, ApiKey } from '../types/api-key.types';
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
   constructor(private readonly apiKeyService: ApiKeyService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest<Request>();
+    const request = context.switchToHttp().getRequest<AuthenticatedRequest>();
 
     const apiKey = request.headers['x-api-key'];
     if (!apiKey || Array.isArray(apiKey)) {
@@ -33,6 +33,9 @@ export class ApiKeyGuard implements CanActivate {
       return false;
     }
 
+    if (keyRecord.scopes && Array.isArray(keyRecord.scopes)) {
+      request.scopes = keyRecord.scopes as string[];
+    }
     return true;
   }
 

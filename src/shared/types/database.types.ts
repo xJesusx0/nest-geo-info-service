@@ -320,6 +320,188 @@ export type Database = {
         };
         Relationships: [];
       };
+      street: {
+        Row: {
+          active: boolean | null;
+          city_id: number | null;
+          created_at: string | null;
+          geom: unknown;
+          id: number;
+          name: string | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          active?: boolean | null;
+          city_id?: number | null;
+          created_at?: string | null;
+          geom?: unknown;
+          id?: number;
+          name?: string | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          active?: boolean | null;
+          city_id?: number | null;
+          created_at?: string | null;
+          geom?: unknown;
+          id?: number;
+          name?: string | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'street_city_id_fkey';
+            columns: ['city_id'];
+            isOneToOne: false;
+            referencedRelation: 'city';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'street_city_id_fkey';
+            columns: ['city_id'];
+            isOneToOne: false;
+            referencedRelation: 'v_city_with_relations';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      street_intersection: {
+        Row: {
+          active: boolean;
+          created_at: string;
+          geom: unknown;
+          id: number;
+          street_a_id: number;
+          street_b_id: number;
+          updated_at: string;
+        };
+        Insert: {
+          active?: boolean;
+          created_at?: string;
+          geom: unknown;
+          id?: number;
+          street_a_id: number;
+          street_b_id: number;
+          updated_at?: string;
+        };
+        Update: {
+          active?: boolean;
+          created_at?: string;
+          geom?: unknown;
+          id?: number;
+          street_a_id?: number;
+          street_b_id?: number;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'fk_intersection_street_a';
+            columns: ['street_a_id'];
+            isOneToOne: false;
+            referencedRelation: 'street';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'fk_intersection_street_b';
+            columns: ['street_b_id'];
+            isOneToOne: false;
+            referencedRelation: 'street';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      street_raw: {
+        Row: {
+          active: boolean;
+          city_id: number;
+          created_at: string;
+          geom: unknown;
+          id: number;
+          name: string;
+          updated_at: string;
+        };
+        Insert: {
+          active?: boolean;
+          city_id: number;
+          created_at?: string;
+          geom?: unknown;
+          id?: number;
+          name: string;
+          updated_at?: string;
+        };
+        Update: {
+          active?: boolean;
+          city_id?: number;
+          created_at?: string;
+          geom?: unknown;
+          id?: number;
+          name?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'fk_street_city';
+            columns: ['city_id'];
+            isOneToOne: false;
+            referencedRelation: 'city';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'fk_street_city';
+            columns: ['city_id'];
+            isOneToOne: false;
+            referencedRelation: 'v_city_with_relations';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      traffic_light: {
+        Row: {
+          active: boolean;
+          created_at: string;
+          geom: unknown;
+          id: number;
+          intersection_id: number;
+          key_hash: string;
+          latitude: number;
+          longitude: number;
+          name: string;
+          updated_at: string;
+        };
+        Insert: {
+          active?: boolean;
+          created_at?: string;
+          geom?: unknown;
+          id?: number;
+          intersection_id: number;
+          key_hash: string;
+          latitude: number;
+          longitude: number;
+          name: string;
+          updated_at?: string;
+        };
+        Update: {
+          active?: boolean;
+          created_at?: string;
+          geom?: unknown;
+          id?: number;
+          intersection_id?: number;
+          key_hash?: string;
+          latitude?: number;
+          longitude?: number;
+          name?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'fk_traffic_light_intersection';
+            columns: ['intersection_id'];
+            isOneToOne: false;
+            referencedRelation: 'street_intersection';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       urban_area: {
         Row: {
           active: boolean;
@@ -604,6 +786,10 @@ export type Database = {
             };
             Returns: string;
           };
+      create_street_intersection: {
+        Args: { p_street_a_id: number; p_street_b_id: number };
+        Returns: undefined;
+      };
       disablelongtransactions: { Args: never; Returns: string };
       dropgeometrycolumn:
         | {
