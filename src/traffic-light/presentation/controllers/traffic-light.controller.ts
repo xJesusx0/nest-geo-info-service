@@ -16,7 +16,7 @@ import {
 @ApiTags('Traffic Lights')
 @Controller('/api/v1/traffic-lights')
 export class TrafficLightController {
-  constructor(private readonly trafficLightService: TrafficLightService) { }
+  constructor(private readonly trafficLightService: TrafficLightService) {}
 
   @Get()
   @Scopes('traffic_light:read')
@@ -33,62 +33,6 @@ export class TrafficLightController {
     @Query() searchDto: TrafficLightSearchDto,
   ): Promise<TrafficLightDto[]> {
     return this.trafficLightService.search(searchDto);
-  }
-
-  @Get('active')
-  @Scopes('traffic_light:read')
-  @ApiOperation({
-    summary: 'Get active traffic lights',
-    description: 'Retrieve all active traffic lights',
-  })
-  @ApiOkResponse({
-    type: [TrafficLightDto],
-    description: 'List of active traffic lights',
-  })
-  async findActive(): Promise<TrafficLightDto[]> {
-    return this.trafficLightService.findActive();
-  }
-
-  @Get('intersection/:intersectionId')
-  @Scopes('traffic_light:read')
-  @ApiOperation({
-    summary: 'Get traffic lights by intersection',
-    description: 'Retrieve all traffic lights at a specific intersection',
-  })
-  @ApiParam({
-    name: 'intersectionId',
-    description: 'ID of the intersection',
-    type: Number,
-    example: 123,
-  })
-  @ApiOkResponse({
-    type: [TrafficLightDto],
-    description: 'List of traffic lights at the intersection',
-  })
-  @ApiNotFoundResponse({
-    description: 'Invalid intersection ID',
-  })
-  async findByIntersection(
-    @Param('intersectionId', ParseIntPipe) intersectionId: number,
-  ): Promise<TrafficLightDto[]> {
-    return this.trafficLightService.findByIntersection(intersectionId);
-  }
-
-  @Get('coordinates')
-  @Scopes('traffic_light:read')
-  @ApiOperation({
-    summary: 'Get traffic lights by coordinates',
-    description: 'Retrieve traffic lights at exact coordinates',
-  })
-  @ApiOkResponse({
-    type: [TrafficLightDto],
-    description: 'List of traffic lights at the coordinates',
-  })
-  async findByCoordinates(
-    @Query('latitude', ParseIntPipe) latitude: number,
-    @Query('longitude', ParseIntPipe) longitude: number,
-  ): Promise<TrafficLightDto[]> {
-    return this.trafficLightService.findByCoordinates(latitude, longitude);
   }
 
   @Get(':id')

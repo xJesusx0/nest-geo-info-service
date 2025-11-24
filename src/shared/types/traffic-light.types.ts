@@ -1,7 +1,6 @@
 import { Database } from './database.types';
 
-export type TrafficLight =
-  Database['public']['Tables']['traffic_light']['Row'];
+export type TrafficLight = Database['public']['Tables']['traffic_light']['Row'];
 
 export type TrafficLightInsert =
   Database['public']['Tables']['traffic_light']['Insert'];

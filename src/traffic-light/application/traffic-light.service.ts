@@ -12,7 +12,7 @@ export class TrafficLightService {
   constructor(
     @Inject(TRAFFIC_LIGHT_REPOSITORY)
     private readonly trafficLightRepository: TrafficLightRepository,
-  ) { }
+  ) {}
 
   /**
    * Busca semáforos según los parámetros proporcionados
@@ -38,9 +38,7 @@ export class TrafficLightService {
     const trafficLight = await this.trafficLightRepository.findById(id);
 
     if (!trafficLight) {
-      throw new NotFoundException(
-        `No se encontró el semáforo con ID ${id}`,
-      );
+      throw new NotFoundException(`No se encontró el semáforo con ID ${id}`);
     }
 
     return plainToInstance(TrafficLightDto, trafficLight, {
@@ -53,7 +51,9 @@ export class TrafficLightService {
    */
   async findByIntersection(intersectionId: number): Promise<TrafficLightDto[]> {
     if (intersectionId <= 0) {
-      throw new NotFoundException(`ID de intersección inválido: ${intersectionId}`);
+      throw new NotFoundException(
+        `ID de intersección inválido: ${intersectionId}`,
+      );
     }
 
     const trafficLights = await this.trafficLightRepository.search({

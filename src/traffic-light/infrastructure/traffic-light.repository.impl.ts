@@ -13,7 +13,7 @@ export class TrafficLightRepositoryImpl implements TrafficLightRepository {
   constructor(
     @Inject(SUPABASE_CLIENT)
     private supabaseClient: SupabaseClient<Database>,
-  ) { }
+  ) {}
 
   async search(params: TrafficLightSearchParams): Promise<TrafficLight[]> {
     let query = this.supabaseClient.from('traffic_light').select('*');

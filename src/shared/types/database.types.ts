@@ -790,6 +790,16 @@ export type Database = {
         Args: { p_street_a_id: number; p_street_b_id: number };
         Returns: undefined;
       };
+      create_traffic_light: {
+        Args: {
+          p_intersection_id: number;
+          p_key_hash: string;
+          p_latitude: number;
+          p_longitude: number;
+          p_name: string;
+        };
+        Returns: number;
+      };
       disablelongtransactions: { Args: never; Returns: string };
       dropgeometrycolumn:
         | {
