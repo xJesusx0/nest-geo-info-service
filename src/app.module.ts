@@ -9,6 +9,7 @@ import { NeighborhoodModule } from './neighborhood/neighborhood.module';
 import { ApiKeyModule } from './api-key/api-key.module';
 import { AuthModule } from './auth/auth.module';
 import { IntersectionModule } from './intersection/intersection.module';
+import { TrafficLightModule } from './traffic-light/traffic-light.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { IntersectionModule } from './intersection/intersection.module';
     ApiKeyModule,
     AuthModule,
     IntersectionModule,
+    TrafficLightModule,
   ],
   controllers: [AppController],
 })
