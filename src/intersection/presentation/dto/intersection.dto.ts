@@ -1,6 +1,6 @@
 import { Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsOptional } from 'class-validator';
+import { IsNumber, IsOptional, IsPositive } from 'class-validator';
 
 export class StreetIntersectionByPointDto {
   @ApiProperty({
@@ -102,4 +102,76 @@ export class IntersectionQueryDto {
   @IsNumber()
   @Type(() => Number)
   limit: number = 10;
+}
+
+export class CreateIntersectionDto {
+  @ApiProperty({
+    example: 1,
+    description: 'ID de la primera calle',
+    type: Number,
+  })
+  @IsNumber()
+  @IsPositive({ message: 'El ID de la calle A debe ser un número positivo' })
+  @Type(() => Number)
+  streetAId: number;
+
+  @ApiProperty({
+    example: 2,
+    description: 'ID de la segunda calle',
+    type: Number,
+  })
+  @IsNumber()
+  @IsPositive({ message: 'El ID de la calle B debe ser un número positivo' })
+  @Type(() => Number)
+  streetBId: number;
+}
+
+export class IntersectionResponseDto {
+  @ApiProperty({
+    example: 1,
+    description: 'Identificador único de la intersección',
+    type: Number,
+  })
+  @Expose()
+  id: number;
+
+  @ApiProperty({
+    example: 1,
+    description: 'ID de la primera calle',
+    type: Number,
+  })
+  @Expose()
+  street_a_id: number;
+
+  @ApiProperty({
+    example: 2,
+    description: 'ID de la segunda calle',
+    type: Number,
+  })
+  @Expose()
+  street_b_id: number;
+
+  @ApiProperty({
+    example: true,
+    description: 'Estado activo de la intersección',
+    type: Boolean,
+  })
+  @Expose()
+  active: boolean;
+
+  @ApiProperty({
+    example: '2024-01-01T00:00:00Z',
+    description: 'Fecha de creación',
+    type: String,
+  })
+  @Expose()
+  created_at: string;
+
+  @ApiProperty({
+    example: '2024-01-01T00:00:00Z',
+    description: 'Fecha de última actualización',
+    type: String,
+  })
+  @Expose()
+  updated_at: string;
 }

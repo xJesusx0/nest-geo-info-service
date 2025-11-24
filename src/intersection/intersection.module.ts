@@ -18,4 +18,4 @@ import { IntersectionController } from './presentation/controllers/intersection.
   ],
   exports: [IntersectionService],
 })
-export class IntersectionModule { }
+export class IntersectionModule {}

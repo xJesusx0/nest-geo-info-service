@@ -1,4 +1,5 @@
 import {
+  StreetIntersection,
   StreetIntersectionByPoint,
   StreetIntersectionByPointParams,
 } from '@/shared/types/intersection.types';
@@ -9,4 +10,9 @@ export interface StreetIntersectionRepository {
   getByPoint(
     params: StreetIntersectionByPointParams,
   ): Promise<StreetIntersectionByPoint[]>;
+
+  createIntersection(
+    streetAId: number,
+    streetBId: number,
+  ): Promise<StreetIntersection>;
 }
