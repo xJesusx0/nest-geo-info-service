@@ -1,4 +1,5 @@
 import {
+  CreateTrafficLightParams,
   TrafficLight,
   TrafficLightSearchParams,
 } from '@/shared/types/traffic-light.types';
@@ -19,4 +20,13 @@ export interface TrafficLightRepository {
    * @returns Semáforo encontrado o null
    */
   findById(id: number): Promise<TrafficLight | null>;
+
+  /**
+   * Crea un nuevo semáforo
+   * La función de BD valida que la intersección exista y que el semáforo
+   * esté dentro del radio permitido (10 métros)
+   * @param params - Parámetros para crear el semáforo
+   * @returns Semáforo creado
+   */
+  create(params: CreateTrafficLightParams): Promise<TrafficLight>;
 }

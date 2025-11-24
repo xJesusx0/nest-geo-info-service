@@ -131,3 +131,51 @@ export class TrafficLightSearchDto {
   @Type(() => Boolean)
   active?: boolean;
 }
+
+export class CreateTrafficLightDto {
+  @ApiProperty({
+    example: 'Semáforo Principal Norte',
+    description: 'Nombre del semáforo',
+    type: String,
+  })
+  @IsString()
+  name: string;
+
+  @ApiProperty({
+    example: 123,
+    description: 'ID de la intersección donde estará ubicado',
+    type: Number,
+  })
+  @IsNumber()
+  @Type(() => Number)
+  intersectionId: number;
+
+  @ApiProperty({
+    example: 4.6097,
+    description: 'Latitud del semáforo',
+    type: Number,
+  })
+  @IsNumber()
+  @Type(() => Number)
+  latitude: number;
+
+  @ApiProperty({
+    example: -74.0817,
+    description: 'Longitud del semáforo',
+    type: Number,
+  })
+  @IsNumber()
+  @Type(() => Number)
+  longitude: number;
+}
+
+export class CreateTrafficLightResponseDto extends TrafficLightDto {
+  @ApiProperty({
+    example: 'raw-key-xyz-123-abc',
+    description:
+      'Clave del semáforo en formato raw (sin hashear). IMPORTANTE: Este campo solo se expone durante la creación. Guárdelo de forma segura.',
+    type: String,
+  })
+  @Expose()
+  key: string;
+}

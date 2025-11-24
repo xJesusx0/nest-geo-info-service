@@ -1,8 +1,11 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
+import { v4 as uuidv4 } from 'uuid';
 import { TRAFFIC_LIGHT_REPOSITORY } from '../domain/traffic-light.repository';
 import type { TrafficLightRepository } from '../domain/traffic-light.repository';
 import {
+  CreateTrafficLightDto,
+  CreateTrafficLightResponseDto,
   TrafficLightDto,
   TrafficLightSearchDto,
 } from '../presentation/dto/traffic-light.dto';
@@ -47,51 +50,55 @@ export class TrafficLightService {
   }
 
   /**
-   * Obtiene todos los semáforos de una intersección específica
+   * Crea un nuevo semáforo
+   * Genera automáticamente una key única y su hash
+   * IMPORTANTE: La key en raw solo se retorna una vez durante la creación
    */
-  async findByIntersection(intersectionId: number): Promise<TrafficLightDto[]> {
-    if (intersectionId <= 0) {
+  async create(
+    createDto: CreateTrafficLightDto,
+  ): Promise<CreateTrafficLightResponseDto> {
+    const { name, intersectionId, latitude, longitude } = createDto;
+
+    // Validar coordenadas
+    if (latitude < -90 || latitude > 90) {
       throw new NotFoundException(
-        `ID de intersección inválido: ${intersectionId}`,
+        `Latitud inválida: ${latitude}. Debe estar entre -90 y 90`,
       );
     }
 
-    const trafficLights = await this.trafficLightRepository.search({
+    if (longitude < -180 || longitude > 180) {
+      throw new NotFoundException(
+        `Longitud inválida: ${longitude}. Debe estar entre -180 y 180`,
+      );
+    }
+
+    // Generar una key única en raw (esta se expone solo una vez)
+    const rawKey = uuidv4();
+
+    // Hashear la key para guardarla en la base de datos
+    const keyHash = Buffer.from(rawKey).toString('base64');
+
+    // Crear el semáforo en la base de datos con el hash
+    const trafficLight = await this.trafficLightRepository.create({
+      name,
       intersectionId,
-    });
-
-    return plainToInstance(TrafficLightDto, trafficLights, {
-      excludeExtraneousValues: true,
-    });
-  }
-
-  /**
-   * Busca semáforos por coordenadas exactas
-   */
-  async findByCoordinates(
-    latitude: number,
-    longitude: number,
-  ): Promise<TrafficLightDto[]> {
-    const trafficLights = await this.trafficLightRepository.search({
       latitude,
       longitude,
+      keyHash,
     });
 
-    return plainToInstance(TrafficLightDto, trafficLights, {
-      excludeExtraneousValues: true,
-    });
-  }
+    // Convertir a DTO y agregar la key raw
+    const trafficLightDto = plainToInstance(
+      CreateTrafficLightResponseDto,
+      trafficLight,
+      {
+        excludeExtraneousValues: true,
+      },
+    );
 
-  /**
-   * Obtiene solo los semáforos activos
-   */
-  async findActive(): Promise<TrafficLightDto[]> {
-    const trafficLights = await this.trafficLightRepository.search({
-      active: true,
-    });
+    // Asignar la key raw (solo se expone en la creación)
+    trafficLightDto.key = rawKey;
 
-    return plainToInstance(TrafficLightDto, trafficLights, {
-      excludeExtraneousValues: true,
-    });
+    return trafficLightDto;
   }
 }

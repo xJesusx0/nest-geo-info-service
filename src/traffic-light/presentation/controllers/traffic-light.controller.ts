@@ -1,5 +1,15 @@
-import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Query,
+} from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -9,6 +19,8 @@ import {
 import { Scopes } from '@/shared/decorators/scopes.decorator';
 import { TrafficLightService } from '../../application/traffic-light.service';
 import {
+  CreateTrafficLightDto,
+  CreateTrafficLightResponseDto,
   TrafficLightDto,
   TrafficLightSearchDto,
 } from '../dto/traffic-light.dto';
@@ -33,6 +45,28 @@ export class TrafficLightController {
     @Query() searchDto: TrafficLightSearchDto,
   ): Promise<TrafficLightDto[]> {
     return this.trafficLightService.search(searchDto);
+  }
+
+  @Post()
+  @Scopes('traffic_light:write')
+  @ApiOperation({
+    summary: 'Create a traffic light',
+    description:
+      'Creates a new traffic light at a specific intersection. The intersection must exist and the traffic light must be within 10 meters of it. IMPORTANT: The API key (raw) is only returned once during creation. Save it securely.',
+  })
+  @ApiCreatedResponse({
+    type: CreateTrafficLightResponseDto,
+    description:
+      'Traffic light successfully created. The response includes the raw key which will NOT be available again.',
+  })
+  @ApiBadRequestResponse({
+    description:
+      'Invalid request: intersection does not exist, traffic light too far from intersection (>10m), another traffic light exists nearby (<5m), or invalid coordinates',
+  })
+  async create(
+    @Body() createDto: CreateTrafficLightDto,
+  ): Promise<CreateTrafficLightResponseDto> {
+    return this.trafficLightService.create(createDto);
   }
 
   @Get(':id')

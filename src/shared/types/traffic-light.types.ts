@@ -15,3 +15,11 @@ export interface TrafficLightSearchParams {
   longitude?: number;
   active?: boolean;
 }
+
+export interface CreateTrafficLightParams {
+  name: string;
+  intersectionId: number;
+  latitude: number;
+  longitude: number;
+  keyHash: string;
+}
