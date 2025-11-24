@@ -921,6 +921,23 @@ export type Database = {
         Returns: boolean;
       };
       geomfromewkt: { Args: { '': string }; Returns: unknown };
+      get_intersections_with_streets: {
+        Args: {
+          p_latitude: number;
+          p_limit?: number;
+          p_longitude: number;
+          p_radius_meters?: number;
+        };
+        Returns: {
+          distance_meters: number;
+          geojson: string;
+          intersection_id: number;
+          street_a_id: number;
+          street_a_name: string;
+          street_b_id: number;
+          street_b_name: string;
+        }[];
+      };
       get_neighborhood_by_point: {
         Args: { lat: number; lon: number };
         Returns: {
