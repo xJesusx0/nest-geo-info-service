@@ -1,6 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import { TRAFFIC_LIGHT_REPOSITORY } from '../domain/traffic-light.repository';
 import type { TrafficLightRepository } from '../domain/traffic-light.repository';
 import {
@@ -15,7 +15,7 @@ export class TrafficLightService {
   constructor(
     @Inject(TRAFFIC_LIGHT_REPOSITORY)
     private readonly trafficLightRepository: TrafficLightRepository,
-  ) {}
+  ) { }
 
   /**
    * Busca semáforos según los parámetros proporcionados
@@ -73,7 +73,7 @@ export class TrafficLightService {
     }
 
     // Generar una key única en raw (esta se expone solo una vez)
-    const rawKey = uuidv4();
+    const rawKey = randomUUID();
 
     // Hashear la key para guardarla en la base de datos
     const keyHash = Buffer.from(rawKey).toString('base64');
