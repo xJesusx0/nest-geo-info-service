@@ -96,7 +96,7 @@ export class TrafficLightSearchDto {
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
-  intersectionId?: number;
+  intersection_id?: number;
 
   @ApiProperty({
     example: 4.6097,
