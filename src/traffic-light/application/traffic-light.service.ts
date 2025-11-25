@@ -9,12 +9,14 @@ import {
   TrafficLightDto,
   TrafficLightSearchDto,
 } from '../presentation/dto/traffic-light.dto';
+import { EncryptionUtils } from '@/shared/utils/encryption.utils';
 
 @Injectable()
 export class TrafficLightService {
   constructor(
     @Inject(TRAFFIC_LIGHT_REPOSITORY)
     private readonly trafficLightRepository: TrafficLightRepository,
+    private readonly encryptionUtils: EncryptionUtils,
   ) {}
 
   /**
@@ -85,7 +87,7 @@ export class TrafficLightService {
     const rawKey = randomUUID();
 
     // Hashear la key para guardarla en la base de datos
-    const keyHash = Buffer.from(rawKey).toString('base64');
+    const keyHash = this.encryptionUtils.sha256(rawKey);
 
     // Crear el semáforo en la base de datos con el hash
     const trafficLight = await this.trafficLightRepository.create({

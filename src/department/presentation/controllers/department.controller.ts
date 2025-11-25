@@ -23,7 +23,7 @@ import {
 @ApiSecurity('api-key')
 @Controller('/api/v1/departments')
 export class DepartmentController {
-  constructor(private readonly departmentService: DepartmentService) { }
+  constructor(private readonly departmentService: DepartmentService) {}
 
   @Get()
   @Scopes('department:read')

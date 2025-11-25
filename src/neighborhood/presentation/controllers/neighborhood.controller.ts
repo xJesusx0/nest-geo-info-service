@@ -14,7 +14,7 @@ import { QueryNeighborhoodDto, NeighborhoodDto } from '../dto/neighborhood.dto';
 @ApiSecurity('api-key')
 @Controller('/api/v1/neighborhoods')
 export class NeighborhoodController {
-  constructor(private readonly neighborhoodService: NeighborhoodService) { }
+  constructor(private readonly neighborhoodService: NeighborhoodService) {}
 
   @Get('point')
   @Scopes('neighborhood:read')

@@ -32,7 +32,7 @@ import {
 @ApiSecurity('api-key')
 @Controller('/api/v1/traffic-lights')
 export class TrafficLightController {
-  constructor(private readonly trafficLightService: TrafficLightService) { }
+  constructor(private readonly trafficLightService: TrafficLightService) {}
 
   @Get()
   @Scopes('traffic_light:read')
