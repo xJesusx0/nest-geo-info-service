@@ -9,7 +9,9 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiConflictResponse,
   ApiCreatedResponse,
+  ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -41,6 +43,9 @@ export class TrafficLightController {
     type: [TrafficLightDto],
     description: 'List of traffic lights matching the search criteria',
   })
+  @ApiBadRequestResponse({
+    description: 'Invalid search parameters',
+  })
   async search(
     @Query() searchDto: TrafficLightSearchDto,
   ): Promise<TrafficLightDto[]> {
@@ -62,6 +67,15 @@ export class TrafficLightController {
   @ApiBadRequestResponse({
     description:
       'Invalid request: intersection does not exist, traffic light too far from intersection (>10m), another traffic light exists nearby (<5m), or invalid coordinates',
+  })
+  @ApiNotFoundResponse({
+    description: 'Intersection not found',
+  })
+  @ApiConflictResponse({
+    description: 'Traffic light already exists at these coordinates',
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal server error',
   })
   async create(
     @Body() createDto: CreateTrafficLightDto,

@@ -1,4 +1,4 @@
-import { Expose, Type } from 'class-transformer';
+import { Expose, Transform, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsOptional, IsPositive } from 'class-validator';
 
@@ -52,12 +52,18 @@ export class StreetIntersectionByPointDto {
   distance_meters: number;
 
   @ApiProperty({
-    example: '{"type":"Point","coordinates":[-74.0,4.0]}',
+    example: { type: 'Point', coordinates: [-74.0, 4.0] },
     description: 'Geometría de la intersección en formato GeoJSON',
-    type: String,
+  })
+  @Transform(({ value }) => {
+    try {
+      return (typeof value === 'string' ? JSON.parse(value) : value) as object;
+    } catch {
+      return value as object;
+    }
   })
   @Expose()
-  geojson: string;
+  geojson: object;
 }
 
 export class IntersectionQueryDto {
