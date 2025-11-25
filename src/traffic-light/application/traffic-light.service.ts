@@ -22,7 +22,13 @@ export class TrafficLightService {
    * Si no se proporcionan parámetros, retorna todos los semáforos
    */
   async search(searchDto: TrafficLightSearchDto): Promise<TrafficLightDto[]> {
-    const trafficLights = await this.trafficLightRepository.search(searchDto);
+    const trafficLights = await this.trafficLightRepository.search({
+      name: searchDto.name,
+      intersectionId: searchDto.intersection_id,
+      latitude: searchDto.latitude,
+      longitude: searchDto.longitude,
+      active: searchDto.active,
+    });
 
     return plainToInstance(TrafficLightDto, trafficLights, {
       excludeExtraneousValues: true,
