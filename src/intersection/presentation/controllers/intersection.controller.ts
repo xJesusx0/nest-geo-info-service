@@ -19,7 +19,7 @@ import {
 @ApiTags('Intersections')
 @Controller('/api/v1/intersections')
 export class IntersectionController {
-  constructor(private readonly intersectionService: IntersectionService) { }
+  constructor(private readonly intersectionService: IntersectionService) {}
 
   @Get()
   @Scopes('street_intersection:read')

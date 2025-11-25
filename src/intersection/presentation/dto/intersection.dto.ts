@@ -57,9 +57,9 @@ export class StreetIntersectionByPointDto {
   })
   @Transform(({ value }) => {
     try {
-      return typeof value === 'string' ? JSON.parse(value) : value;
+      return (typeof value === 'string' ? JSON.parse(value) : value) as object;
     } catch {
-      return value;
+      return value as object;
     }
   })
   @Expose()
