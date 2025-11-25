@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
+  ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -18,7 +19,7 @@ import {
 @ApiTags('Intersections')
 @Controller('/api/v1/intersections')
 export class IntersectionController {
-  constructor(private readonly intersectionService: IntersectionService) {}
+  constructor(private readonly intersectionService: IntersectionService) { }
 
   @Get()
   @Scopes('street_intersection:read')
@@ -30,6 +31,9 @@ export class IntersectionController {
   @ApiOkResponse({
     type: [StreetIntersectionByPointDto],
     description: 'List of intersections found',
+  })
+  @ApiBadRequestResponse({
+    description: 'Invalid query parameters',
   })
   async getByPoint(
     @Query() query: IntersectionQueryDto,
@@ -51,6 +55,9 @@ export class IntersectionController {
   @ApiBadRequestResponse({
     description:
       'Invalid request: streets do not intersect, same street IDs, or invalid parameters',
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal server error',
   })
   async createIntersection(
     @Body() createDto: CreateIntersectionDto,
