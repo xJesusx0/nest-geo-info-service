@@ -9,7 +9,7 @@ export class StreetIntersectionByPointDto {
     type: Number,
   })
   @Expose({ name: 'intersection_id' })
-  intersection_id: number;
+  id: number;
 
   @ApiProperty({
     example: 45,
