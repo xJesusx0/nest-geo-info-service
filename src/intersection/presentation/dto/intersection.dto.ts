@@ -119,7 +119,7 @@ export class CreateIntersectionDto {
   @IsNumber()
   @IsPositive({ message: 'El ID de la calle A debe ser un número positivo' })
   @Type(() => Number)
-  streetAId: number;
+  street_a_id: number;
 
   @ApiProperty({
     example: 2,
@@ -129,7 +129,7 @@ export class CreateIntersectionDto {
   @IsNumber()
   @IsPositive({ message: 'El ID de la calle B debe ser un número positivo' })
   @Type(() => Number)
-  streetBId: number;
+  street_b_id: number;
 }
 
 export class IntersectionResponseDto {
