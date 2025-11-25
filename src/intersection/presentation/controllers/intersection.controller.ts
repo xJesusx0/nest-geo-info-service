@@ -5,6 +5,7 @@ import {
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiSecurity,
   ApiTags,
 } from '@nestjs/swagger';
 import { Scopes } from '@/shared/decorators/scopes.decorator';
@@ -17,9 +18,10 @@ import {
 } from '../dto/intersection.dto';
 
 @ApiTags('Intersections')
+@ApiSecurity('api-key')
 @Controller('/api/v1/intersections')
 export class IntersectionController {
-  constructor(private readonly intersectionService: IntersectionService) {}
+  constructor(private readonly intersectionService: IntersectionService) { }
 
   @Get()
   @Scopes('street_intersection:read')

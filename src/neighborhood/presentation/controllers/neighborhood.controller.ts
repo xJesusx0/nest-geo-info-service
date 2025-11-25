@@ -5,14 +5,16 @@ import {
   ApiOperation,
   ApiOkResponse,
   ApiNotFoundResponse,
+  ApiSecurity,
 } from '@nestjs/swagger';
 import { NeighborhoodService } from '../../application/neighborhood.service';
 import { QueryNeighborhoodDto, NeighborhoodDto } from '../dto/neighborhood.dto';
 
 @ApiTags('Neighborhoods')
+@ApiSecurity('api-key')
 @Controller('/api/v1/neighborhoods')
 export class NeighborhoodController {
-  constructor(private readonly neighborhoodService: NeighborhoodService) {}
+  constructor(private readonly neighborhoodService: NeighborhoodService) { }
 
   @Get('point')
   @Scopes('neighborhood:read')

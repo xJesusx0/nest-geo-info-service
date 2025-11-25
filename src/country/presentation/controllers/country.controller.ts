@@ -12,14 +12,16 @@ import {
   ApiOperation,
   ApiOkResponse,
   ApiNotFoundResponse,
+  ApiSecurity,
 } from '@nestjs/swagger';
 import { CountryService } from '../../application/country.service';
 import { CountryDto, CountryQueryDto } from '../dto/country.dto';
 
 @ApiTags('Countries')
+@ApiSecurity('api-key')
 @Controller('/api/v1/countries')
 export class CountryController {
-  constructor(private readonly countryService: CountryService) {}
+  constructor(private readonly countryService: CountryService) { }
 
   @Get()
   @Scopes('country:read')

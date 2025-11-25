@@ -12,13 +12,15 @@ import {
   ApiOperation,
   ApiOkResponse,
   ApiNotFoundResponse,
+  ApiSecurity,
 } from '@nestjs/swagger';
 import { QueryCityDto, CityWithRelationsDto, CityDto } from '../dto/city.dto';
 
 @ApiTags('Cities')
+@ApiSecurity('api-key')
 @Controller('/api/v1/cities')
 export class CityController {
-  constructor(private readonly cityService: CityService) {}
+  constructor(private readonly cityService: CityService) { }
 
   @Get()
   @Scopes('city:read')
