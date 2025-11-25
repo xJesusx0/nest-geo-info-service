@@ -21,7 +21,7 @@ import { CountryDto, CountryQueryDto } from '../dto/country.dto';
 @ApiSecurity('api-key')
 @Controller('/api/v1/countries')
 export class CountryController {
-  constructor(private readonly countryService: CountryService) { }
+  constructor(private readonly countryService: CountryService) {}
 
   @Get()
   @Scopes('country:read')

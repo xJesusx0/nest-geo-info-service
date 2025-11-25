@@ -20,7 +20,7 @@ import { QueryCityDto, CityWithRelationsDto, CityDto } from '../dto/city.dto';
 @ApiSecurity('api-key')
 @Controller('/api/v1/cities')
 export class CityController {
-  constructor(private readonly cityService: CityService) { }
+  constructor(private readonly cityService: CityService) {}
 
   @Get()
   @Scopes('city:read')

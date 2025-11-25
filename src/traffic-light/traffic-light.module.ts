@@ -4,9 +4,10 @@ import { TrafficLightService } from './application/traffic-light.service';
 import { SupabaseModule } from '@/supabase/supabase.module';
 import { TrafficLightRepositoryImpl } from './infrastructure/traffic-light.repository.impl';
 import { TRAFFIC_LIGHT_REPOSITORY } from './domain/traffic-light.repository';
+import { UtilsModule } from '@/shared/utils/utils.module';
 
 @Module({
-  imports: [SupabaseModule],
+  imports: [SupabaseModule, UtilsModule],
   providers: [
     TrafficLightService,
     {
