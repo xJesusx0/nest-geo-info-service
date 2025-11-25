@@ -28,7 +28,8 @@ export class IntersectionService {
   async createIntersection(
     createDto: CreateIntersectionDto,
   ): Promise<IntersectionResponseDto> {
-    const { streetAId, streetBId } = createDto;
+    const streetAId = createDto.street_a_id;
+    const streetBId = createDto.street_b_id;
 
     // Validación: los IDs deben ser diferentes
     if (streetAId === streetBId) {

@@ -57,7 +57,10 @@ export class TrafficLightService {
   async create(
     createDto: CreateTrafficLightDto,
   ): Promise<CreateTrafficLightResponseDto> {
-    const { name, intersectionId, latitude, longitude } = createDto;
+    const name = createDto.name;
+    const intersectionId = createDto.intersection_id;
+    const latitude = createDto.latitude;
+    const longitude = createDto.longitude;
 
     // Validar coordenadas
     if (latitude < -90 || latitude > 90) {
