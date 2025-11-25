@@ -14,7 +14,7 @@ export class IntersectionService {
   constructor(
     @Inject(STREET_INTERSECTION_REPOSITORY)
     private readonly intersectionRepository: StreetIntersectionRepository,
-  ) { }
+  ) {}
 
   async getByPoint(
     params: StreetIntersectionByPointParams,

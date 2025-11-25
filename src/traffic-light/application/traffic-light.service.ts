@@ -15,7 +15,7 @@ export class TrafficLightService {
   constructor(
     @Inject(TRAFFIC_LIGHT_REPOSITORY)
     private readonly trafficLightRepository: TrafficLightRepository,
-  ) { }
+  ) {}
 
   /**
    * Busca semáforos según los parámetros proporcionados
