@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { IntersectionModule } from './intersection/intersection.module';
 import { TrafficLightModule } from './traffic-light/traffic-light.module';
 import { UtilsModule } from './shared/utils/utils.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UtilsModule } from './shared/utils/utils.module';
     IntersectionModule,
     TrafficLightModule,
     UtilsModule,
+    HealthModule,
   ],
   controllers: [AppController],
 })
