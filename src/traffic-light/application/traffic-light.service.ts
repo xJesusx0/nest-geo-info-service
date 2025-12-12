@@ -10,6 +10,7 @@ import {
   TrafficLightSearchDto,
 } from '../presentation/dto/traffic-light.dto';
 import { EncryptionUtils } from '@/shared/utils/encryption.utils';
+import { CoordinateValidator } from '@/shared/utils/coordinate.validator';
 
 @Injectable()
 export class TrafficLightService {
@@ -67,17 +68,7 @@ export class TrafficLightService {
     const longitude = createDto.longitude;
 
     // Validar coordenadas
-    if (latitude < -90 || latitude > 90) {
-      throw new NotFoundException(
-        `Latitud inválida: ${latitude}. Debe estar entre -90 y 90`,
-      );
-    }
-
-    if (longitude < -180 || longitude > 180) {
-      throw new NotFoundException(
-        `Longitud inválida: ${longitude}. Debe estar entre -180 y 180`,
-      );
-    }
+    CoordinateValidator.validate(latitude, longitude);
 
     // Generar una key única en raw (esta se expone solo una vez)
     const rawKey = randomUUID();
