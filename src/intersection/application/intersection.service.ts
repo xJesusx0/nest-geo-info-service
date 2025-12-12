@@ -1,5 +1,5 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
+import { toDto } from '@/shared/utils/dto-transformer';
 import { STREET_INTERSECTION_REPOSITORY } from '../domain/intersection.repository';
 import type { StreetIntersectionRepository } from '../domain/intersection.repository';
 import { StreetIntersectionByPointParams } from '@/shared/types/intersection.types';
@@ -20,9 +20,7 @@ export class IntersectionService {
     params: StreetIntersectionByPointParams,
   ): Promise<StreetIntersectionByPointDto[]> {
     const intersections = await this.intersectionRepository.getByPoint(params);
-    return plainToInstance(StreetIntersectionByPointDto, intersections, {
-      excludeExtraneousValues: true,
-    });
+    return toDto(StreetIntersectionByPointDto, intersections);
   }
 
   async createIntersection(
@@ -52,8 +50,6 @@ export class IntersectionService {
     );
 
     // Transformar el resultado al DTO de respuesta
-    return plainToInstance(IntersectionResponseDto, intersection, {
-      excludeExtraneousValues: true,
-    });
+    return toDto(IntersectionResponseDto, intersection);
   }
 }

@@ -39,7 +39,7 @@ export class DepartmentController {
   async findAll(
     @Query() queryParams: QueryDepartmentDto,
   ): Promise<DepartmentDto[]> {
-    return this.departmentService.findAll(queryParams);
+    return this.departmentService.getAllDepartments(queryParams);
   }
 
   @Get(':id')
@@ -56,7 +56,7 @@ export class DepartmentController {
     description: 'Department not found',
   })
   async findOne(@Param('id') id: string): Promise<DepartmentDto> {
-    const department = await this.departmentService.findOne(+id);
+    const department = await this.departmentService.getDepartmentById(+id);
     if (!department) {
       throw new NotFoundException(`Department with id ${id} not found`);
     }

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
+import { toDto } from '@/shared/utils/dto-transformer';
 import type { CountryRepository } from '../domain/country.repository';
 import { COUNTRY_REPOSITORY } from '../domain/country.repository';
 import { CountrySearchQueryParams } from '@/shared/types/country.types';
@@ -16,9 +16,7 @@ export class CountryService {
     query: CountrySearchQueryParams,
   ): Promise<CountryDto[]> {
     const countries = await this.countryRepository.findAll(query);
-    return plainToInstance(CountryDto, countries, {
-      excludeExtraneousValues: true,
-    });
+    return toDto(CountryDto, countries);
   }
 
   async getCountryById(id: number): Promise<CountryDto | null> {
@@ -26,8 +24,6 @@ export class CountryService {
     if (!country) {
       return null;
     }
-    return plainToInstance(CountryDto, country, {
-      excludeExtraneousValues: true,
-    });
+    return toDto(CountryDto, country);
   }
 }

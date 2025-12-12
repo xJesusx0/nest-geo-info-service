@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
+import { toDto } from '@/shared/utils/dto-transformer';
 import { randomUUID } from 'crypto';
 import { TRAFFIC_LIGHT_REPOSITORY } from '../domain/traffic-light.repository';
 import type { TrafficLightRepository } from '../domain/traffic-light.repository';
@@ -32,9 +32,7 @@ export class TrafficLightService {
       active: searchDto.active,
     });
 
-    return plainToInstance(TrafficLightDto, trafficLights, {
-      excludeExtraneousValues: true,
-    });
+    return toDto(TrafficLightDto, trafficLights);
   }
 
   /**
@@ -52,9 +50,7 @@ export class TrafficLightService {
       throw new NotFoundException(`No se encontró el semáforo con ID ${id}`);
     }
 
-    return plainToInstance(TrafficLightDto, trafficLight, {
-      excludeExtraneousValues: true,
-    });
+    return toDto(TrafficLightDto, trafficLight);
   }
 
   /**
@@ -99,13 +95,7 @@ export class TrafficLightService {
     });
 
     // Convertir a DTO y agregar la key raw
-    const trafficLightDto = plainToInstance(
-      CreateTrafficLightResponseDto,
-      trafficLight,
-      {
-        excludeExtraneousValues: true,
-      },
-    );
+    const trafficLightDto = toDto(CreateTrafficLightResponseDto, trafficLight);
 
     // Asignar la key raw (solo se expone en la creación)
     trafficLightDto.key = rawKey;

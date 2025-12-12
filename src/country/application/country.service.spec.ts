@@ -5,7 +5,7 @@ import { CountryDto } from '../presentation/dto/country.dto';
 
 describe('CountryService', () => {
   let service: CountryService;
-  let repositoryMock: any;
+  let repositoryMock: Record<string, jest.Mock>;
 
   const mockCountries = [
     {

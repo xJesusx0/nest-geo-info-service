@@ -6,7 +6,6 @@ import { ApiKey } from '../types/api-key.types';
 
 describe('ApiKeyGuard', () => {
   let guard: ApiKeyGuard;
-  let apiKeyService: ApiKeyService;
 
   const mockApiKeyService = {
     findByKey: jest.fn(),
@@ -24,17 +23,16 @@ describe('ApiKeyGuard', () => {
     }).compile();
 
     guard = module.get<ApiKeyGuard>(ApiKeyGuard);
-    apiKeyService = module.get<ApiKeyService>(ApiKeyService);
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  const createMockContext = (headers: Record<string, any> = {}) => {
+  const createMockContext = (headers: Record<string, unknown> = {}) => {
     const request = {
       headers,
-      scopes: [],
+      scopes: [] as string[],
     };
     return {
       switchToHttp: () => ({
@@ -64,16 +62,15 @@ describe('ApiKeyGuard', () => {
     const context = createMockContext({ 'x-api-key': 'invalid-key' });
     const result = await guard.canActivate(context);
     expect(result).toBe(false);
-    expect(apiKeyService.findByKey).toHaveBeenCalledWith('invalid-key');
+    expect(mockApiKeyService.findByKey).toHaveBeenCalledWith('invalid-key');
   });
 
   it('should return false if api key is inactive', async () => {
-    const apiKey: ApiKey = {
-      key: 'inactive-key',
+    const apiKey: Partial<ApiKey> = {
       active: false,
       scopes: [],
       client_origin: [],
-    } as any;
+    };
     mockApiKeyService.findByKey.mockResolvedValue(apiKey);
     const context = createMockContext({ 'x-api-key': 'inactive-key' });
     const result = await guard.canActivate(context);
@@ -81,13 +78,12 @@ describe('ApiKeyGuard', () => {
   });
 
   it('should return false if api key is expired', async () => {
-    const apiKey: ApiKey = {
-      key: 'expired-key',
+    const apiKey: Partial<ApiKey> = {
       active: true,
       expires_at: new Date(Date.now() - 10000).toISOString(), // Expired 10s ago
       scopes: [],
       client_origin: [],
-    } as any;
+    };
     mockApiKeyService.findByKey.mockResolvedValue(apiKey);
     const context = createMockContext({ 'x-api-key': 'expired-key' });
     const result = await guard.canActivate(context);
@@ -95,12 +91,11 @@ describe('ApiKeyGuard', () => {
   });
 
   it('should return false if origin is not allowed', async () => {
-    const apiKey: ApiKey = {
-      key: 'valid-key',
+    const apiKey: Partial<ApiKey> = {
       active: true,
       scopes: [],
       client_origin: ['https://allowed.com'],
-    } as any;
+    };
     mockApiKeyService.findByKey.mockResolvedValue(apiKey);
     const context = createMockContext({
       'x-api-key': 'valid-key',
@@ -111,12 +106,11 @@ describe('ApiKeyGuard', () => {
   });
 
   it('should return true if origin is allowed', async () => {
-    const apiKey: ApiKey = {
-      key: 'valid-key',
+    const apiKey: Partial<ApiKey> = {
       active: true,
       scopes: [],
       client_origin: ['https://allowed.com'],
-    } as any;
+    };
     mockApiKeyService.findByKey.mockResolvedValue(apiKey);
     const context = createMockContext({
       'x-api-key': 'valid-key',
@@ -127,12 +121,11 @@ describe('ApiKeyGuard', () => {
   });
 
   it('should return true if no origin restrictions', async () => {
-    const apiKey: ApiKey = {
-      key: 'valid-key',
+    const apiKey: Partial<ApiKey> = {
       active: true,
       scopes: [],
       client_origin: [], // No restrictions
-    } as any;
+    };
     mockApiKeyService.findByKey.mockResolvedValue(apiKey);
     const context = createMockContext({
       'x-api-key': 'valid-key',
@@ -144,19 +137,21 @@ describe('ApiKeyGuard', () => {
 
   it('should attach scopes to request and return true', async () => {
     const scopes = ['read:data', 'write:data'];
-    const apiKey: ApiKey = {
-      key: 'valid-key',
+    const apiKey: Partial<ApiKey> = {
       active: true,
       scopes: scopes,
       client_origin: [],
-    } as any;
+    };
     mockApiKeyService.findByKey.mockResolvedValue(apiKey);
     const context = createMockContext({ 'x-api-key': 'valid-key' });
 
     const result = await guard.canActivate(context);
 
     expect(result).toBe(true);
-    const request = context.switchToHttp().getRequest();
+
+    const request = context.switchToHttp().getRequest<unknown>() as {
+      scopes: string[];
+    };
     expect(request.scopes).toEqual(scopes);
   });
 });
