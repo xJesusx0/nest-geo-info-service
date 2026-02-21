@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
+import { toDto } from '@/shared/utils/dto-transformer';
 import type { DepartmentRepository } from '../domain/department.repository';
 import { DEPARTMENT_REPOSITORY } from '../domain/department.repository';
 import { DepartmentSearchQueryParams } from '@/shared/types/department.types';
@@ -9,25 +9,21 @@ import { DepartmentDto } from '../presentation/dto/department.dto';
 export class DepartmentService {
   constructor(
     @Inject(DEPARTMENT_REPOSITORY)
-    private departmentRepository: DepartmentRepository,
+    private readonly departmentRepository: DepartmentRepository,
   ) {}
 
-  async findAll(
-    queryParams: DepartmentSearchQueryParams,
+  async getAllDepartments(
+    query: DepartmentSearchQueryParams,
   ): Promise<DepartmentDto[]> {
-    const departments = await this.departmentRepository.findAll(queryParams);
-    return plainToInstance(DepartmentDto, departments, {
-      excludeExtraneousValues: true,
-    });
+    const departments = await this.departmentRepository.findAll(query);
+    return toDto(DepartmentDto, departments);
   }
 
-  async findOne(id: number): Promise<DepartmentDto | null> {
+  async getDepartmentById(id: number): Promise<DepartmentDto | null> {
     const department = await this.departmentRepository.findById(id);
     if (!department) {
       return null;
     }
-    return plainToInstance(DepartmentDto, department, {
-      excludeExtraneousValues: true,
-    });
+    return toDto(DepartmentDto, department);
   }
 }

@@ -21,6 +21,15 @@ async function bootstrap() {
     .setTitle('Geo Info Service')
     .setDescription('API for geographical information of Colombia')
     .setVersion('1.0')
+    .addApiKey(
+      {
+        type: 'apiKey',
+        name: 'x-api-key',
+        in: 'header',
+        description: 'API Key for authentication',
+      },
+      'api-key',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document, {

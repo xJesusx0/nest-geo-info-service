@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
+import { toDto } from '@/shared/utils/dto-transformer';
 import { randomUUID } from 'crypto';
 import { TRAFFIC_LIGHT_REPOSITORY } from '../domain/traffic-light.repository';
 import type { TrafficLightRepository } from '../domain/traffic-light.repository';
@@ -9,12 +9,15 @@ import {
   TrafficLightDto,
   TrafficLightSearchDto,
 } from '../presentation/dto/traffic-light.dto';
+import { EncryptionUtils } from '@/shared/utils/encryption.utils';
+import { CoordinateValidator } from '@/shared/utils/coordinate.validator';
 
 @Injectable()
 export class TrafficLightService {
   constructor(
     @Inject(TRAFFIC_LIGHT_REPOSITORY)
     private readonly trafficLightRepository: TrafficLightRepository,
+    private readonly encryptionUtils: EncryptionUtils,
   ) {}
 
   /**
@@ -30,9 +33,7 @@ export class TrafficLightService {
       active: searchDto.active,
     });
 
-    return plainToInstance(TrafficLightDto, trafficLights, {
-      excludeExtraneousValues: true,
-    });
+    return toDto(TrafficLightDto, trafficLights);
   }
 
   /**
@@ -50,9 +51,7 @@ export class TrafficLightService {
       throw new NotFoundException(`No se encontró el semáforo con ID ${id}`);
     }
 
-    return plainToInstance(TrafficLightDto, trafficLight, {
-      excludeExtraneousValues: true,
-    });
+    return toDto(TrafficLightDto, trafficLight);
   }
 
   /**
@@ -69,23 +68,13 @@ export class TrafficLightService {
     const longitude = createDto.longitude;
 
     // Validar coordenadas
-    if (latitude < -90 || latitude > 90) {
-      throw new NotFoundException(
-        `Latitud inválida: ${latitude}. Debe estar entre -90 y 90`,
-      );
-    }
-
-    if (longitude < -180 || longitude > 180) {
-      throw new NotFoundException(
-        `Longitud inválida: ${longitude}. Debe estar entre -180 y 180`,
-      );
-    }
+    CoordinateValidator.validate(latitude, longitude);
 
     // Generar una key única en raw (esta se expone solo una vez)
     const rawKey = randomUUID();
 
     // Hashear la key para guardarla en la base de datos
-    const keyHash = Buffer.from(rawKey).toString('base64');
+    const keyHash = this.encryptionUtils.sha256(rawKey);
 
     // Crear el semáforo en la base de datos con el hash
     const trafficLight = await this.trafficLightRepository.create({
@@ -97,13 +86,7 @@ export class TrafficLightService {
     });
 
     // Convertir a DTO y agregar la key raw
-    const trafficLightDto = plainToInstance(
-      CreateTrafficLightResponseDto,
-      trafficLight,
-      {
-        excludeExtraneousValues: true,
-      },
-    );
+    const trafficLightDto = toDto(CreateTrafficLightResponseDto, trafficLight);
 
     // Asignar la key raw (solo se expone en la creación)
     trafficLightDto.key = rawKey;

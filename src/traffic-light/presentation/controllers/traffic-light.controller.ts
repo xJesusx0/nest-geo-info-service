@@ -16,6 +16,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiParam,
+  ApiSecurity,
   ApiTags,
 } from '@nestjs/swagger';
 import { Scopes } from '@/shared/decorators/scopes.decorator';
@@ -28,6 +29,7 @@ import {
 } from '../dto/traffic-light.dto';
 
 @ApiTags('Traffic Lights')
+@ApiSecurity('api-key')
 @Controller('/api/v1/traffic-lights')
 export class TrafficLightController {
   constructor(private readonly trafficLightService: TrafficLightService) {}

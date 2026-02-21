@@ -12,10 +12,12 @@ import {
   ApiOperation,
   ApiOkResponse,
   ApiNotFoundResponse,
+  ApiSecurity,
 } from '@nestjs/swagger';
 import { QueryCityDto, CityWithRelationsDto, CityDto } from '../dto/city.dto';
 
 @ApiTags('Cities')
+@ApiSecurity('api-key')
 @Controller('/api/v1/cities')
 export class CityController {
   constructor(private readonly cityService: CityService) {}
@@ -34,7 +36,7 @@ export class CityController {
   async getAll(
     @Query() queryParams: QueryCityDto,
   ): Promise<CityWithRelationsDto[]> {
-    return this.cityService.findAll(queryParams);
+    return this.cityService.getAllCities(queryParams);
   }
 
   @Get(':id')
@@ -51,7 +53,7 @@ export class CityController {
     description: 'City not found',
   })
   async getById(@Param('id') id: string): Promise<CityDto> {
-    const city = await this.cityService.findOne(+id);
+    const city = await this.cityService.getCityById(+id);
     if (!city) {
       throw new NotFoundException(`City with id ${id} not found`);
     }

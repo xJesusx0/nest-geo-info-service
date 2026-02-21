@@ -10,6 +10,8 @@ import { ApiKeyModule } from './api-key/api-key.module';
 import { AuthModule } from './auth/auth.module';
 import { IntersectionModule } from './intersection/intersection.module';
 import { TrafficLightModule } from './traffic-light/traffic-light.module';
+import { UtilsModule } from './shared/utils/utils.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { TrafficLightModule } from './traffic-light/traffic-light.module';
     AuthModule,
     IntersectionModule,
     TrafficLightModule,
+    UtilsModule,
+    HealthModule,
   ],
   controllers: [AppController],
 })
