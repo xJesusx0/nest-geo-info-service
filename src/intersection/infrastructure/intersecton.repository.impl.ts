@@ -9,9 +9,7 @@ import {
 import { SUPABASE_CLIENT } from '@/supabase/supabase.module';
 import { BadRequestException, Inject } from '@nestjs/common';
 
-export class StreetIntersectionRepositoryImpl
-  implements StreetIntersectionRepository
-{
+export class StreetIntersectionRepositoryImpl implements StreetIntersectionRepository {
   constructor(
     @Inject(SUPABASE_CLIENT)
     private supabaseClient: SupabaseClient<Database>,

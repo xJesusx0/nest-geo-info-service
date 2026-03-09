@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { IntersectionController } from './intersection.controller';
 import { IntersectionService } from '../../application/intersection.service';
-import { IntersectionResponseDto } from '../../dto/intersection.dto';
 
 describe('IntersectionController', () => {
   let controller: IntersectionController;
