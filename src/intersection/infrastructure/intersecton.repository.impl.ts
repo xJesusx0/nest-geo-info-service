@@ -15,6 +15,19 @@ export class StreetIntersectionRepositoryImpl implements StreetIntersectionRepos
     private supabaseClient: SupabaseClient<Database>,
   ) {}
 
+  async findAll(): Promise<StreetIntersection[]> {
+    const { data, error } = await this.supabaseClient
+      .from('street_intersection')
+      .select('*');
+
+    if (error) {
+      console.error('Error fetching all intersections:', error);
+      throw new Error(`Failed to fetch intersections: ${error.message}`);
+    }
+
+    return data || [];
+  }
+
   async getById(id: number): Promise<StreetIntersection | null> {
     const { data, error } = await this.supabaseClient
       .from('street_intersection')

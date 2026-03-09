@@ -7,6 +7,8 @@ import {
 export const STREET_INTERSECTION_REPOSITORY = 'StreetIntersectionRepository';
 
 export interface StreetIntersectionRepository {
+  findAll(): Promise<StreetIntersection[]>;
+
   getById(id: number): Promise<StreetIntersection | null>;
 
   getByPoint(

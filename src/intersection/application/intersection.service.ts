@@ -21,6 +21,11 @@ export class IntersectionService {
     private readonly intersectionRepository: StreetIntersectionRepository,
   ) {}
 
+  async getAll(): Promise<IntersectionResponseDto[]> {
+    const intersections = await this.intersectionRepository.findAll();
+    return toDto(IntersectionResponseDto, intersections);
+  }
+
   async getById(id: number): Promise<IntersectionResponseDto> {
     const intersection = await this.intersectionRepository.getById(id);
     if (!intersection) {

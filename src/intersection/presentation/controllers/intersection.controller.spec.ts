@@ -17,6 +17,7 @@ describe('IntersectionController', () => {
 
   beforeEach(async () => {
     serviceMock = {
+      getAll: jest.fn(),
       getById: jest.fn(),
       getByPoint: jest.fn(),
       createIntersection: jest.fn(),
@@ -37,6 +38,18 @@ describe('IntersectionController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  describe('getAll', () => {
+    it('should call service.getAll and return the result', async () => {
+      const mockIntersections = [mockIntersectionResponse];
+      serviceMock.getAll.mockResolvedValue(mockIntersections);
+
+      const result = await controller.getAll();
+
+      expect(result).toEqual(mockIntersections);
+      expect(serviceMock.getAll).toHaveBeenCalled();
+    });
   });
 
   describe('getById', () => {

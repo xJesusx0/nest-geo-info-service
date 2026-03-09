@@ -19,6 +19,7 @@ describe('IntersectionService', () => {
 
   beforeEach(async () => {
     repositoryMock = {
+      findAll: jest.fn(),
       getById: jest.fn(),
       getByPoint: jest.fn(),
       createIntersection: jest.fn(),
@@ -39,6 +40,21 @@ describe('IntersectionService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  describe('getAll', () => {
+    it('should return an array of IntersectionResponseDto', async () => {
+      const mockIntersections = [mockIntersection];
+      repositoryMock.findAll.mockResolvedValue(mockIntersections);
+
+      const result = await service.getAll();
+
+      expect(Array.isArray(result)).toBe(true);
+      expect(result).toHaveLength(1);
+      expect(result[0]).toBeInstanceOf(IntersectionResponseDto);
+      expect(result[0].id).toBe(1);
+      expect(repositoryMock.findAll).toHaveBeenCalled();
+    });
   });
 
   describe('getById', () => {

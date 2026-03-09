@@ -32,6 +32,20 @@ import {
 export class IntersectionController {
   constructor(private readonly intersectionService: IntersectionService) {}
 
+  @Get()
+  @Scopes('street_intersection:read')
+  @ApiOperation({
+    summary: 'Get all intersections',
+    description: 'Retrieve a list of all street intersections',
+  })
+  @ApiOkResponse({
+    type: [IntersectionResponseDto],
+    description: 'List of all intersections',
+  })
+  async getAll(): Promise<IntersectionResponseDto[]> {
+    return this.intersectionService.getAll();
+  }
+
   @Get(':id')
   @Scopes('street_intersection:read')
   @ApiOperation({
@@ -51,7 +65,7 @@ export class IntersectionController {
     return this.intersectionService.getById(id);
   }
 
-  @Get()
+  @Get('/coordinates')
   @Scopes('street_intersection:read')
   @ApiOperation({
     summary: 'Get intersections by point',
