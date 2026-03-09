@@ -18,7 +18,8 @@ export class StreetIntersectionRepositoryImpl implements StreetIntersectionRepos
   async findAll(): Promise<StreetIntersection[]> {
     const { data, error } = await this.supabaseClient
       .from('street_intersection')
-      .select('*');
+      .select('*')
+      .eq('active', true);
 
     if (error) {
       console.error('Error fetching all intersections:', error);
