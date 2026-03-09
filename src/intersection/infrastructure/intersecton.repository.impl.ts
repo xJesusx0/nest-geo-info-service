@@ -16,6 +16,25 @@ export class StreetIntersectionRepositoryImpl
     @Inject(SUPABASE_CLIENT)
     private supabaseClient: SupabaseClient<Database>,
   ) {}
+
+  async getById(id: number): Promise<StreetIntersection | null> {
+    const { data, error } = await this.supabaseClient
+      .from('street_intersection')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return null;
+      }
+      console.error('Error fetching intersection by ID:', error);
+      throw new Error(`Failed to fetch intersection: ${error.message}`);
+    }
+
+    return data;
+  }
+
   async getByPoint(
     params: StreetIntersectionByPointParams,
   ): Promise<StreetIntersectionByPoint[]> {

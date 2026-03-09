@@ -1,8 +1,17 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Query,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiSecurity,
@@ -22,6 +31,25 @@ import {
 @Controller('/api/v1/intersections')
 export class IntersectionController {
   constructor(private readonly intersectionService: IntersectionService) {}
+
+  @Get(':id')
+  @Scopes('street_intersection:read')
+  @ApiOperation({
+    summary: 'Get intersection by ID',
+    description: 'Retrieve a specific intersection by its unique identifier',
+  })
+  @ApiOkResponse({
+    type: IntersectionResponseDto,
+    description: 'Intersection found',
+  })
+  @ApiNotFoundResponse({
+    description: 'Intersection not found',
+  })
+  async getById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<IntersectionResponseDto> {
+    return this.intersectionService.getById(id);
+  }
 
   @Get()
   @Scopes('street_intersection:read')

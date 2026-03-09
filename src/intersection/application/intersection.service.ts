@@ -1,4 +1,9 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { toDto } from '@/shared/utils/dto-transformer';
 import { STREET_INTERSECTION_REPOSITORY } from '../domain/intersection.repository';
 import type { StreetIntersectionRepository } from '../domain/intersection.repository';
@@ -15,6 +20,14 @@ export class IntersectionService {
     @Inject(STREET_INTERSECTION_REPOSITORY)
     private readonly intersectionRepository: StreetIntersectionRepository,
   ) {}
+
+  async getById(id: number): Promise<IntersectionResponseDto> {
+    const intersection = await this.intersectionRepository.getById(id);
+    if (!intersection) {
+      throw new NotFoundException(`Intersección con ID ${id} no encontrada`);
+    }
+    return toDto(IntersectionResponseDto, intersection);
+  }
 
   async getByPoint(
     params: StreetIntersectionByPointParams,
