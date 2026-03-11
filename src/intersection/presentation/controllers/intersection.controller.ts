@@ -46,25 +46,6 @@ export class IntersectionController {
     return this.intersectionService.getAll();
   }
 
-  @Get(':id')
-  @Scopes('street_intersection:read')
-  @ApiOperation({
-    summary: 'Get intersection by ID',
-    description: 'Retrieve a specific intersection by its unique identifier',
-  })
-  @ApiOkResponse({
-    type: IntersectionResponseDto,
-    description: 'Intersection found',
-  })
-  @ApiNotFoundResponse({
-    description: 'Intersection not found',
-  })
-  async getById(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<IntersectionResponseDto> {
-    return this.intersectionService.getById(id);
-  }
-
   @Get('/coordinates')
   @Scopes('street_intersection:read')
   @ApiOperation({
@@ -83,6 +64,25 @@ export class IntersectionController {
     @Query() query: IntersectionQueryDto,
   ): Promise<StreetIntersectionByPointDto[]> {
     return this.intersectionService.getByPoint(query);
+  }
+
+  @Get(':id')
+  @Scopes('street_intersection:read')
+  @ApiOperation({
+    summary: 'Get intersection by ID',
+    description: 'Retrieve a specific intersection by its unique identifier',
+  })
+  @ApiOkResponse({
+    type: IntersectionResponseDto,
+    description: 'Intersection found',
+  })
+  @ApiNotFoundResponse({
+    description: 'Intersection not found',
+  })
+  async getById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<IntersectionResponseDto> {
+    return this.intersectionService.getById(id);
   }
 
   @Post()
