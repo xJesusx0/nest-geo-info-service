@@ -2,6 +2,8 @@ import { Database } from './database.types';
 
 export type StreetIntersection =
   Database['public']['Tables']['street_intersection']['Row'];
+export type StreetIntersectionWithStreets =
+  Database['public']['Functions']['get_all_intersections']['Returns'][0];
 export type StreetIntersectionByPoint =
   Database['public']['Functions']['get_intersections_with_streets']['Returns'][0];
 export interface StreetIntersectionByPointParams {

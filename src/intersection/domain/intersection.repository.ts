@@ -2,12 +2,13 @@ import {
   StreetIntersection,
   StreetIntersectionByPoint,
   StreetIntersectionByPointParams,
+  StreetIntersectionWithStreets,
 } from '@/shared/types/intersection.types';
 
 export const STREET_INTERSECTION_REPOSITORY = 'StreetIntersectionRepository';
 
 export interface StreetIntersectionRepository {
-  findAll(): Promise<StreetIntersection[]>;
+  findAll(): Promise<StreetIntersectionWithStreets[]>;
 
   getById(id: number): Promise<StreetIntersection | null>;
 

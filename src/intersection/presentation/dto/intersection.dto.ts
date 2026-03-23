@@ -181,3 +181,45 @@ export class IntersectionResponseDto {
   @Expose()
   updated_at: string;
 }
+
+export class StreetIntersectionWithStreetsDto {
+  @ApiProperty({
+    example: 1,
+    description: 'Identificador único de la intersección',
+    type: Number,
+  })
+  @Expose()
+  id: number;
+
+  @ApiProperty({
+    example: 1,
+    description: 'ID de la primera calle',
+    type: Number,
+  })
+  @Expose()
+  street_a_id: number;
+
+  @ApiProperty({
+    example: 'Calle 50',
+    description: 'Nombre de la primera calle',
+    type: String,
+  })
+  @Expose()
+  street_a_name: string;
+
+  @ApiProperty({
+    example: 2,
+    description: 'ID de la segunda calle',
+    type: Number,
+  })
+  @Expose()
+  street_b_id: number;
+
+  @ApiProperty({
+    example: 'Carrera 20',
+    description: 'Nombre de la segunda calle',
+    type: String,
+  })
+  @Expose()
+  street_b_name: string;
+}

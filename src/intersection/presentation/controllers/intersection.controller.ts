@@ -24,7 +24,9 @@ import {
   IntersectionQueryDto,
   IntersectionResponseDto,
   StreetIntersectionByPointDto,
+  StreetIntersectionWithStreetsDto,
 } from '../dto/intersection.dto';
+import { StreetIntersectionWithStreets } from '@/shared/types/intersection.types';
 
 @ApiTags('Intersections')
 @ApiSecurity('api-key')
@@ -39,10 +41,10 @@ export class IntersectionController {
     description: 'Retrieve a list of all street intersections',
   })
   @ApiOkResponse({
-    type: [IntersectionResponseDto],
+    type: [StreetIntersectionWithStreetsDto],
     description: 'List of all intersections',
   })
-  async getAll(): Promise<IntersectionResponseDto[]> {
+  async getAll(): Promise<StreetIntersectionWithStreets[]> {
     return this.intersectionService.getAll();
   }
 

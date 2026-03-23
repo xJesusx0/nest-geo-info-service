@@ -7,7 +7,10 @@ import {
 import { toDto } from '@/shared/utils/dto-transformer';
 import { STREET_INTERSECTION_REPOSITORY } from '../domain/intersection.repository';
 import type { StreetIntersectionRepository } from '../domain/intersection.repository';
-import { StreetIntersectionByPointParams } from '@/shared/types/intersection.types';
+import {
+  StreetIntersectionByPointParams,
+  StreetIntersectionWithStreets,
+} from '@/shared/types/intersection.types';
 import {
   CreateIntersectionDto,
   IntersectionResponseDto,
@@ -21,9 +24,9 @@ export class IntersectionService {
     private readonly intersectionRepository: StreetIntersectionRepository,
   ) {}
 
-  async getAll(): Promise<IntersectionResponseDto[]> {
+  async getAll(): Promise<StreetIntersectionWithStreets[]> {
     const intersections = await this.intersectionRepository.findAll();
-    return toDto(IntersectionResponseDto, intersections);
+    return intersections;
   }
 
   async getById(id: number): Promise<IntersectionResponseDto> {

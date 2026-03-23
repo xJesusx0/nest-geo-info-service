@@ -5,6 +5,7 @@ import {
   StreetIntersection,
   StreetIntersectionByPointParams,
   StreetIntersectionByPoint,
+  StreetIntersectionWithStreets,
 } from '@/shared/types/intersection.types';
 import { SUPABASE_CLIENT } from '@/supabase/supabase.module';
 import { BadRequestException, Inject } from '@nestjs/common';
@@ -15,11 +16,10 @@ export class StreetIntersectionRepositoryImpl implements StreetIntersectionRepos
     private supabaseClient: SupabaseClient<Database>,
   ) {}
 
-  async findAll(): Promise<StreetIntersection[]> {
-    const { data, error } = await this.supabaseClient
-      .from('street_intersection')
-      .select('*')
-      .eq('active', true);
+  async findAll(): Promise<StreetIntersectionWithStreets[]> {
+    const { data, error } = await this.supabaseClient.rpc(
+      'get_all_intersections',
+    );
 
     if (error) {
       console.error('Error fetching all intersections:', error);
